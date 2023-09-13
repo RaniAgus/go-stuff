@@ -26,3 +26,8 @@ func main() {
 - Se puede ejecutar de una sin anestesia usando `go run hello.go`
 - Sino, para compilar ejecutamos `go build`, y nos va a crear un `./example`
 - `go install` te instala el ejecutable en `~/go/bin`
+
+## Intro
+
+- [Learn Go in 12 Minutes](https://www.youtube.com/watch?v=C8LgvuEBraI)
+- [Concurrency in Go](https://www.youtube.com/watch?v=LvgVSSpwND8)
