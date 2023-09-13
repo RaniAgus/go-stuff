@@ -103,7 +103,8 @@ func main() {
 	fmt.Println(boke)
 }
 
-func sum(x int, y int) int {
+// Si quito el tipo del primer parámetro, se asume que es el mismo tipo que el segundo
+func sum(x, y int) int {
 	return x + y
 }
 
