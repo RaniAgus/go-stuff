@@ -101,6 +101,11 @@ func main() {
 	inc(&boke)
 
 	fmt.Println(boke)
+
+	cuatro, err := sqrt2(16)
+	if err == nil {
+		fmt.Println(cuatro)
+	}
 }
 
 // Si quito el tipo del primer parámetro, se asume que es el mismo tipo que el segundo
@@ -118,6 +123,18 @@ func sqrt(x float64) (float64, error) {
 
 func inc(x *int) {
 	*x++
+}
+
+// También puedo hacer que el retorno se infiera desde las variables de la función
+func sqrt2(x float64) (result float64, err error) {
+	if x < 0 {
+		result = 0
+		err = errors.New("Undefined for negative numbers")
+	} else {
+		result = math.Sqrt(x)
+	}
+
+	return // esto devuelve result, err!!!!!!!!!!!!!!!!!!!!?????
 }
 
 // Para correr el programa, ejecutar:
