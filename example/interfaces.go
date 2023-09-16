@@ -88,5 +88,32 @@ func main() {
 	if i == nil {
 		fmt.Println("i == nil")
 	}
+	describe(i)
+
+	t = &T{"Hello"}
+	i = t
+
+	// Si una interface contiene un tipo concreto, puedo obtener el valor
+	// con una sintaxis similar a un cast
+	efe, ok := i.(F)
+	if ok {
+		fmt.Println("F", efe)
+	} else {
+		// Si solo hubiera recibido un parámetro, habría explotado
+		fmt.Println("Not a F")
+	}
+
+	// Puedo verificar si una interface contiene un tipo concreto
+	// con una sintaxis similar a un switch
+	switch v := i.(type) {
+	case *T:
+		fmt.Println("T", v)
+	case F:
+		fmt.Println("F", v)
+	}
+}
+
+// Una función que recibe una interface vacía puede recibir cualquier cosa
+func describe(i interface{}) {
 	fmt.Printf("(%v, %T)\n", i, i)
 }
