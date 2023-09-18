@@ -36,3 +36,9 @@ go: found github.com/google/go-cmp/cmp in github.com/google/go-cmp v0.5.9
 - Creamos un archivo cuyo nombre termine en `_test.go`
 - Cada función recibe un parámetro de tipo `testing.T`
 - Si la función llama a `t.Error` o `t.Fail`, es porque el test falló
+- Corremos los tests con `go test`
+
+```bash
+$ go test ./morestrings
+ok      github.com/RaniAgus/hello/morestrings   0.001s
+```
