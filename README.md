@@ -1,5 +1,7 @@
 # hello
 
+Ref: [How to Write Go Code](https://go.dev/doc/code)
+
 ### Instalar una aplicación
 
 ```bash
