@@ -15,6 +15,7 @@ Acá subo las cosas que hago para aprender go.
 
 - [Effective Go - Article](https://go.dev/doc/effective_go)
 - [First Class Functions in Go - Codewalk](https://go.dev/doc/codewalk/functions/)
+- [Advanced Golang - Playlist](https://www.youtube.com/playlist?list=PLKOhSssLmvQQPFv-QqbRZ10rn3UdBLvVC)
 
 ### Concurrencia
 
