@@ -29,3 +29,10 @@ go: found github.com/google/go-cmp/cmp in github.com/google/go-cmp v0.5.9
 ```
 
 - Para borrar todos los módulos descargados, ejecutamos `go clean -modcache`
+
+### Testing
+
+- Importamos el paquete `"testing"`
+- Creamos un archivo cuyo nombre termine en `_test.go`
+- Cada función recibe un parámetro de tipo `testing.T`
+- Si la función llama a `t.Error` o `t.Fail`, es porque el test falló
