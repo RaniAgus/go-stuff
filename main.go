@@ -8,5 +8,5 @@ import (
 
 func main() {
 	p := person.New("Agus", 24)
-	fmt.Println(p)
+	fmt.Println(p.String())
 }
