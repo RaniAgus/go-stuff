@@ -17,18 +17,20 @@ func New(name string, age int) Person {
 }
 
 // Los getters no llevan "Get"
-func (p *Person) Name() (name string) {
-	name = ""
-	if p != nil {
-		name = p.name
+func (p *Person) Name() string {
+	// En varios lados vamos a encontrar inicializaciones de variables en la misma línea
+	// que se hace el if, esto es porque el scope de la variable es solo dentro del if
+	// y no queremos que sea global
+	if name := p.name; len(name) > 0 {
+		return name
 	}
-	return // jaja admítelo, no te esperabas ver un naked return aquí
+	return "No name"
 }
 
 func (p *Person) Age() int {
 	if p == nil {
 		return -1
-	}
+	} // No hace falta poner else porque ya se retornó en el if
 	return p.age
 }
 
