@@ -17,11 +17,17 @@ sql:
       emit_interface: true
       emit_json_tags: true
       # Ref: https://docs.sqlc.dev/en/stable/howto/overrides.html
-      overrides: []
-        # - db_type: "uuid"
-        #     go_type:
-        #     import: "github.com/google/uuid"
-        #     type: "UUID"
+      overrides:
+        - db_type: "uuid"
+          nullable: false
+          go_type:
+            import: "github.com/google/uuid"
+            type: "UUID"
+        - db_type: "uuid"
+          nullable: true
+          go_type:
+            import: "github.com/google/uuid"
+            type: "UUID"
   database:
     # If true, connect to a managed database. Defaults to false.
     # Ref: https://docs.sqlc.dev/en/stable/howto/managed-databases.html
