@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    "**/*_templ.go": true
+  },
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.templ$",
+        "cmd": "templ generate"
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+package users
+
+import "github.com/RaniAgus/go-templ/internal/components"
+
+templ Show(u User) {
+  @components.Base("My Page") {
+    <h1>Hello, {u.FirstName} {u.LastName}!</h1>
+    <p>You are using {ctx.Value("version").(string)}</p>
+  }
+}
