@@ -1,0 +1,49 @@
+version: "2"
+# Managed databases are an optional feature that improves sqlc's query analysis in many cases
+# cloud:
+#   project: "go-sqlc"
+sql:
+- engine: "postgresql"
+  schema: "db/migrations"
+  queries: "db/query"
+  # A mapping to configure built-in code generators.
+  gen:
+    # Ref: https://docs.sqlc.dev/en/stable/reference/config.html#go
+    go:
+      package: "db"
+      out: "db/sqlc"
+      sql_package: "pgx/v5"
+      emit_empty_slices: true
+      emit_interface: true
+      emit_json_tags: true
+      # Ref: https://docs.sqlc.dev/en/stable/howto/overrides.html
+      overrides: []
+        # - db_type: "uuid"
+        #     go_type:
+        #     import: "github.com/google/uuid"
+        #     type: "UUID"
+  database:
+    # If true, connect to a managed database. Defaults to false.
+    # Ref: https://docs.sqlc.dev/en/stable/howto/managed-databases.html
+    # managed: false
+    uri: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}
+  # Ref: https://docs.sqlc.dev/en/stable/reference/config.html#rules
+  # rules: []
+
+# overrides:
+  # go: {}
+    # rename:
+    #   id: "Identifier"
+    # overrides:
+    #   - db_type: "timestamptz"
+    #     nullable: true
+    #     engine: "postgresql"
+    #     go_type:
+    #       import: "gopkg.in/guregu/null.v4"
+    #       package: "null"
+    #       type: "Time"
+# Ref: https://docs.sqlc.dev/en/stable/reference/config.html#plugins
+# plugins: []
+# Ref: https://docs.sqlc.dev/en/stable/reference/config.html#rules
+# rules: []
+# options: {}
