@@ -1,0 +1,12 @@
+{
+  "files.exclude": {
+    ".task": true,
+    "**/*_templ.go": true
+  },
+  "[templ]": {
+    "editor.defaultFormatter": "a-h.templ"
+  },
+  "tailwindCSS.includeLanguages": {
+    "templ": "html"
+  }
+}
