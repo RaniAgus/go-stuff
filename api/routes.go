@@ -11,7 +11,7 @@ import (
 
 func NewRouter(db sqlc.Querier) *chi.Mux {
 	r := chi.NewRouter()
-	h := &web.Handler{
+	h := web.Handler{
 		DB: db,
 	}
 	fs := http.FileServer(http.Dir("web/static"))

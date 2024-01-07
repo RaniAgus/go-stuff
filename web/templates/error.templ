@@ -1,0 +1,8 @@
+package templates
+
+templ ShowErrorPage(message string) {
+  @Base("Unknown error") {
+    <h1>Oops!</h1>
+    <p>{message} <a href="/">Go to home.</a></p>
+  }
+}
