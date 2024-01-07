@@ -6,7 +6,7 @@
     "commands": [
       {
         "match": "\\.templ$",
-        "cmd": "make templ"
+        "cmd": "make templ tailwind"
       },
       {
         "match": "\\.sql$",
