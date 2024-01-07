@@ -12,24 +12,34 @@ templ ShowFilms(films []sqlc.Film) {
         @ShowFilm(film)
       }
     </ul>
-    <span id="adding" class="htmx-indicator">Adding film...</span>
-    <form
-      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-      hx-post="/films"
-      hx-target="#film-list"
-      hx-swap="beforeend"
-      hx-indicator="#adding-film"
-    >
-      <h2 class="text-xl font-bold mb-2">Add a film</h2>
-      @TextInput("Title", "title", "Title")
-      @TextInput("Director", "director", "Director")
-      @SubmitButton("Add Film")
-    </form>
+    <span id="adding-film" class="htmx-indicator">Adding film...</span>
+    @ShowNewFilmForm()
   }
 }
 
-templ ShowFilm(film sqlc.Film) {
+templ SwapNewFilm(film sqlc.Film) {
+  <div hx-swap-oob="beforeend:#film-list">
+    @ShowFilm(film, true)
+  </div>
+  @ShowNewFilmForm()
+}
+
+templ ShowFilm(film sqlc.Film, swap ...bool) {
   <li>
     <b>{film.Title}</b> by {film.Director}
   </li>
+}
+
+templ ShowNewFilmForm() {
+  <form
+    class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    hx-post="/films"
+    hx-indicator="#adding-film"
+    hx-swap="outerHTML"
+  >
+    <h2 class="text-xl font-bold mb-2">Add a film</h2>
+    @TextInput("Title", "title", "Title")
+    @TextInput("Director", "director", "Director")
+    @SubmitButton("Add Film")
+  </form>
 }

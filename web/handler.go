@@ -36,5 +36,5 @@ func (h *Handler) PostFilm(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	return templates.ShowFilm(film).Render(r.Context(), w)
+	return templates.SwapNewFilm(film).Render(r.Context(), w)
 }
