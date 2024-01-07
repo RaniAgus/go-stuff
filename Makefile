@@ -28,7 +28,7 @@ templ:
 tailwind: args ?= --minify
 tailwind:
 	@echo "=== Minifying CSS... ==="
-	@tailwindcss -i ./web/static/css/tailwind.css -o ./web/static/css/tailwind.min.css $(args)
+	@tailwindcss -i ./tailwind.css -o ./web/static/css/tailwind.min.css $(args)
 
 run:
 	@echo "=== Starting development server... ==="
