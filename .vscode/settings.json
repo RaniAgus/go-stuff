@@ -1,0 +1,24 @@
+{
+  "files.exclude": {
+    "**/*_templ.go": true
+  },
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.templ$",
+        "cmd": "make templ"
+      },
+      {
+        "match": "\\.sql$",
+        "notMatch": "migrations",
+        "cmd": "make sqlc"
+      }
+    ]
+  },
+  "[templ]": {
+    "editor.defaultFormatter": "a-h.templ"
+  },
+  "tailwindCSS.includeLanguages": {
+    "templ": "html"
+  }
+}

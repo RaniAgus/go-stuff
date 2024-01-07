@@ -1,0 +1,27 @@
+package templates
+
+templ Base(title string) {
+  <html>
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/tailwind.min.css"/>
+    <title>{title}</title>
+  </head>
+  <body class="container mx-auto px-4 mt-4">
+    {children...}
+  </body>
+  </html>
+}
+
+templ TextInput(label string, name string, placeholder string) {
+  <div class="flex flex-col mb-4">
+    <label class="mb-2 font-bold text-sm text-grey-darkest" for={name}>{label}</label>
+    <input class="border py-2 px-3 text-grey-darkest" type="text" name={name} placeholder={placeholder}/>
+  </div>
+}
+
+templ SubmitButton(label string) {
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">{label}</button>
+}

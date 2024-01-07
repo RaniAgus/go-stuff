@@ -1,0 +1,35 @@
+package templates
+
+import "github.com/RaniAgus/go-starter/data/sqlc"
+
+templ ShowFilms(films []sqlc.Film) {
+  @Base("Films") {
+    <h1 class="text-3xl font-bold underline mb-4">
+      Films
+    </h1>
+    <ul class="list-disc" id="film-list">
+      for _, film := range films {
+        @ShowFilm(film)
+      }
+    </ul>
+    <span id="adding" class="htmx-indicator">Adding film...</span>
+    <form
+      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      hx-post="/films"
+      hx-target="#film-list"
+      hx-swap="beforeend"
+      hx-indicator="#adding-film"
+    >
+      <h2 class="text-xl font-bold mb-2">Add a film</h2>
+      @TextInput("Title", "title", "Title")
+      @TextInput("Director", "director", "Director")
+      @SubmitButton("Add Film")
+    </form>
+  }
+}
+
+templ ShowFilm(film sqlc.Film) {
+  <li>
+    <b>{film.Title}</b> by {film.Director}
+  </li>
+}

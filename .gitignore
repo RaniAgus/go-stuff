@@ -1,0 +1,5 @@
+.idea/
+data/sqlc/
+.env
+*_templ.go
+web/static/css/tailwind.min.css
