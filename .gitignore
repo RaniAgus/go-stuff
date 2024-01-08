@@ -1,4 +1,5 @@
 .idea/
+.task/
 data/sqlc/
 *_templ.go
 *.min.css

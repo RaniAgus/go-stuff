@@ -1,0 +1,82 @@
+version: "3"
+
+dotenv:
+  - .env
+
+vars:
+  DBSTRING: postgresql://{{.POSTGRES_USER}}:{{.POSTGRES_PASSWORD}}@{{.POSTGRES_HOST}}:{{.POSTGRES_PORT}}/{{.POSTGRES_DB}}
+
+tasks:
+  default:
+    run: always
+    sources:
+      - "**/*.go"
+    cmds:
+      - go run cmd/server/main.go
+    deps:
+      - migrate
+      - generate
+
+  seed:
+    run: always
+    sources:
+      - "**/*.go"
+    cmds:
+      - go run cmd/seeder/main.go
+    deps:
+      - sqlc
+
+  generate:
+    deps:
+      - sqlc
+      - templ
+      - tailwindcss
+
+  sqlc:
+    generates:
+      - data/sqlc/**/*.go
+    sources:
+      - data/queries/**/*.sql
+    cmds:
+      - sqlc generate
+    env:
+      DBSTRING: "{{.DBSTRING}}"
+
+  templ:
+    generates:
+      - web/templates/**/*_templ.go
+    sources:
+      - web/templates/*.templ
+    cmds:
+      - templ generate
+
+  tailwindcss:
+    generates:
+      - web/static/css/tailwind.min.css
+    sources:
+      - tailwind.config.js
+      - tailwind.css
+      - web/templates/**/*.templ
+    cmds:
+      - tailwindcss -i ./tailwind.css -o ./web/static/css/tailwind.min.css --minify
+
+  migrate:
+    sources:
+      - data/migrations/**/*.sql
+    cmds:
+      - goose -dir data/migrations postgres "{{.DBSTRING}}" up
+
+  add-migration:
+    run: always
+    cmds:
+      - goose -dir data/migrations postgres "{{.DBSTRING}}" create "{{.NAME}}" sql
+    requires:
+      vars:
+        - "NAME"
+
+  clean:
+    run: always
+    cmds:
+      - rm -rfv data/sqlc
+      - find . -type f -name '*_templ.go' | xargs --no-run-if-empty rm -rfv
+      - rm -rfv web/static/css/tailwind.min.css

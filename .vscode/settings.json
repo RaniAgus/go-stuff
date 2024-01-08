@@ -6,12 +6,12 @@
     "commands": [
       {
         "match": "\\.templ$",
-        "cmd": "make templ tailwind"
+        "cmd": "bin/task templ tailwindcss"
       },
       {
         "match": "\\.sql$",
         "notMatch": "migrations",
-        "cmd": "make sqlc"
+        "cmd": "bin/task sqlc"
       }
     ]
   },
