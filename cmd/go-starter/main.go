@@ -10,6 +10,7 @@ import (
 	"github.com/RaniAgus/go-starter/api"
 	"github.com/RaniAgus/go-starter/data"
 	"github.com/RaniAgus/go-starter/data/sqlc"
+	"github.com/RaniAgus/go-starter/util"
 	"github.com/RaniAgus/go-starter/web"
 	"github.com/go-playground/validator/v10"
 )
@@ -34,6 +35,8 @@ func main() {
 
 	r := api.NewRouter(h)
 
-	log.Println("Server running on http://localhost:3000")
-	log.Fatal(http.ListenAndServe(":3000", r))
+	port := util.Getenv("PORT", "3000")
+
+	log.Println("Server running on http://localhost:" + port)
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
