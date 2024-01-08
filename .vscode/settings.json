@@ -3,19 +3,6 @@
     ".task": true,
     "**/*_templ.go": true
   },
-  "emeraldwalk.runonsave": {
-    "commands": [
-      {
-        "match": "\\.templ$",
-        "cmd": "bin/task templ tailwindcss"
-      },
-      {
-        "match": "\\.sql$",
-        "notMatch": "migrations",
-        "cmd": "bin/task sqlc"
-      }
-    ]
-  },
   "[templ]": {
     "editor.defaultFormatter": "a-h.templ"
   },
