@@ -5,17 +5,18 @@ Golang starter project.
 ## Install dependencies
 
 ```bash
-make install
+chmod +x ./scripts/configure.sh
+./scripts/configure.sh
 ```
 
 ## Create migration file
 
 ```bash
-make migration name=<migration_name>
+task migration name=<migration_name>
 ```
 
 # Start server
 
 ```bash
-make
+task
 ```

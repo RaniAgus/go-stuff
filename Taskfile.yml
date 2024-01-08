@@ -8,7 +8,10 @@ vars:
 
 tasks:
   default:
-    run: always
+    cmds:
+      - ag -l . | entr -r task run
+
+  run:
     sources:
       - "**/*.go"
     cmds:
@@ -18,7 +21,6 @@ tasks:
       - generate
 
   seed:
-    run: always
     sources:
       - "**/*.go"
     cmds:
@@ -55,9 +57,9 @@ tasks:
     generates:
       - web/static/css/tailwind.min.css
     sources:
+      - web/templates/**/*.templ
       - tailwind.config.js
       - tailwind.css
-      - web/templates/**/*.templ
     cmds:
       - tailwindcss -i ./tailwind.css -o ./web/static/css/tailwind.min.css --minify
 
@@ -68,7 +70,6 @@ tasks:
       - goose -dir data/migrations postgres "{{.DBSTRING}}" up
 
   add-migration:
-    run: always
     cmds:
       - goose -dir data/migrations postgres "{{.DBSTRING}}" create "{{.NAME}}" sql
     requires:
@@ -76,7 +77,6 @@ tasks:
         - "NAME"
 
   clean:
-    run: always
     cmds:
       - rm -rfv data/sqlc
       - find . -type f -name '*_templ.go' | xargs --no-run-if-empty rm -rfv
