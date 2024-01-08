@@ -37,6 +37,7 @@ tasks:
       - data/sqlc/**/*.go
     sources:
       - data/queries/**/*.sql
+      - sqlc.yaml
     cmds:
       - sqlc generate
     env:
