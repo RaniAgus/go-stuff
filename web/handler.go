@@ -33,7 +33,7 @@ func (h Handler) GetFilms(w http.ResponseWriter, r *http.Request) error {
 func (h Handler) PostFilm(w http.ResponseWriter, r *http.Request) error {
 	form := templates.NewFilmForm{
 		Title:    strings.Trim(r.PostFormValue("title"), " "),
-		Director: strings.Fields(r.PostFormValue("director")),
+		Director: strings.Fields(r.PostFormValue("director")), // debería usar varios inputs en vez de esto
 	}
 
 	err := h.Validate.Struct(form)
