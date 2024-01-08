@@ -3,8 +3,10 @@ package web
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/RaniAgus/go-starter/web/templates"
+	"github.com/go-playground/validator/v10"
 )
 
 type APIError struct {
@@ -27,4 +29,18 @@ func (h Handler) HandlePageError(w http.ResponseWriter, r *http.Request, err err
 	}
 
 	templates.ShowErrorPage(msg).Render(r.Context(), w)
+}
+
+func GetValidationErrorFields(err error) []string {
+	errors := []string{}
+	for _, err := range err.(validator.ValidationErrors) {
+		// If the error is a slice or map, we remove the key from the field name
+		arrIndex := strings.Index(err.Field(), "[")
+		if arrIndex > -1 {
+			errors = append(errors, err.Field()[:arrIndex])
+		} else {
+			errors = append(errors, err.Field())
+		}
+	}
+	return errors
 }

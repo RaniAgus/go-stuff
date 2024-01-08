@@ -2,13 +2,16 @@ package web
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/RaniAgus/go-starter/data/sqlc"
 	"github.com/RaniAgus/go-starter/web/templates"
+	"github.com/go-playground/validator/v10"
 )
 
 type Handler struct {
-	DB sqlc.Querier
+	DB       sqlc.Querier
+	Validate *validator.Validate
 }
 
 type HandlerFunc func(w http.ResponseWriter, r *http.Request) error
@@ -28,9 +31,19 @@ func (h Handler) GetFilms(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (h Handler) PostFilm(w http.ResponseWriter, r *http.Request) error {
+	form := templates.NewFilmForm{
+		Title:    strings.Trim(r.PostFormValue("title"), " "),
+		Director: strings.Fields(r.PostFormValue("director")),
+	}
+
+	err := h.Validate.Struct(form)
+	if err != nil {
+		return templates.ShowNewFilmForm(form, GetValidationErrorFields(err)).Render(r.Context(), w)
+	}
+
 	film, err := h.DB.CreateFilm(r.Context(), sqlc.CreateFilmParams{
-		Title:    r.PostFormValue("title"),
-		Director: r.PostFormValue("director"),
+		Title:    form.Title,
+		Director: strings.Join(form.Director, " "),
 	})
 	if err != nil {
 		return err

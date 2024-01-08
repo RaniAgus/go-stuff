@@ -4,3 +4,4 @@ data/sqlc/
 *_templ.go
 *.min.css
 .env
+__debug*

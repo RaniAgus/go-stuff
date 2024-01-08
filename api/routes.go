@@ -3,17 +3,13 @@ package api
 import (
 	"net/http"
 
-	"github.com/RaniAgus/go-starter/data/sqlc"
 	"github.com/RaniAgus/go-starter/web"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func NewRouter(db sqlc.Querier) *chi.Mux {
+func NewRouter(h web.Handler) *chi.Mux {
 	r := chi.NewRouter()
-	h := web.Handler{
-		DB: db,
-	}
 	fs := http.FileServer(http.Dir("web/static"))
 
 	r.Use(middleware.Logger)
