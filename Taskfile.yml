@@ -12,21 +12,19 @@ tasks:
       - ag -l . | entr -r task run
 
   run:
+    deps:
+      - migrate
+      - generate
     sources:
       - "**/*.go"
     cmds:
       - go run cmd/go-starter/main.go
-    deps:
-      - migrate
-      - generate
 
   seed:
-    sources:
-      - "**/*.go"
-    cmds:
-      - go run cmd/seeder/main.go
     deps:
       - sqlc
+    cmds:
+      - go run cmd/seeder/main.go
 
   generate:
     deps:
@@ -35,33 +33,31 @@ tasks:
       - tailwindcss
 
   sqlc:
-    generates:
-      - data/sqlc/**/*.go
     sources:
       - data/queries/**/*.sql
       - sqlc.yaml
     cmds:
       - sqlc generate
-    env:
-      DBSTRING: "{{.DBSTRING}}"
+    generates:
+      - data/sqlc/**/*.go
 
   templ:
-    generates:
-      - web/templates/**/*_templ.go
     sources:
       - web/templates/*.templ
     cmds:
       - templ generate
+    generates:
+      - web/templates/**/*_templ.go
 
   tailwindcss:
-    generates:
-      - web/static/css/tailwind.min.css
     sources:
       - web/templates/**/*.templ
       - tailwind.config.js
       - tailwind.css
     cmds:
       - tailwindcss -i ./tailwind.css -o ./web/static/css/tailwind.min.css --minify
+    generates:
+      - web/static/css/tailwind.min.css
 
   migrate:
     sources:
@@ -70,14 +66,26 @@ tasks:
       - goose -dir data/migrations postgres "{{.DBSTRING}}" up
 
   add-migration:
-    cmds:
-      - goose -dir data/migrations postgres "{{.DBSTRING}}" create "{{.NAME}}" sql
     requires:
       vars:
         - "NAME"
+    cmds:
+      - goose -dir data/migrations postgres "{{.DBSTRING}}" create "{{.NAME}}" sql
+
+  build:
+    deps:
+      - migrate
+      - generate
+    sources:
+      - "**/*.go"
+    generates:
+      - bin/go-starter
+    cmds:
+      - go build -C cmd/go-starter -o {{.PWD}}/bin/go-starter
 
   clean:
     cmds:
       - rm -rfv data/sqlc
       - find . -type f -name '*_templ.go' | xargs --no-run-if-empty rm -rfv
       - rm -rfv web/static/css/tailwind.min.css
+      - rm -rfv bin/go-starter

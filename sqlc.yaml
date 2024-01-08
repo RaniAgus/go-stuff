@@ -22,5 +22,3 @@ sql:
           go_type:
             import: "github.com/google/uuid"
             type: "UUID"
-  database:
-    uri: ${DBSTRING}
