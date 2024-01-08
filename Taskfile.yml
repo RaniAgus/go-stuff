@@ -12,7 +12,7 @@ tasks:
     sources:
       - "**/*.go"
     cmds:
-      - go run cmd/server/main.go
+      - go run cmd/go-starter/main.go
     deps:
       - migrate
       - generate
