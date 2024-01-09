@@ -1,15 +1,15 @@
-package data
+package internal
 
 import (
 	"context"
 	"fmt"
 	"log"
 
-	"github.com/RaniAgus/go-starter/util"
+	"github.com/RaniAgus/go-starter/internal/util"
 	"github.com/jackc/pgx/v5"
 )
 
-func Connect() *pgx.Conn {
+func NewDatabase() *pgx.Conn {
 	ctx := context.Background()
 	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
 		util.Getenv("POSTGRES_USER"),

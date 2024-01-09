@@ -34,33 +34,34 @@ tasks:
   sqlc:
     run: when_changed
     sources:
-      - data/queries/**/*.sql
+      - data/query/**/*.sql
       - sqlc.yaml
     cmds:
       - sqlc {{default "generate" .CLI_ARGS}}
     generates:
-      - data/sqlc/**/*.go
+      - internal/sql/**/*.go
 
   templ:
     run: when_changed
     sources:
-      - web/templates/*.templ
+      - templates/*.templ
     cmds:
       - templ {{default "generate" .CLI_ARGS}}
     generates:
-      - web/templates/**/*_templ.go
+      - templates/**/*_templ.go
 
   tailwindcss:
     run: when_changed
     deps:
       - templ
     sources:
+      - templates/*.templ
       - tailwind.config.js
       - tailwind.css
     cmds:
-      - tailwindcss -i ./tailwind.css -o ./web/static/css/tailwind.min.css --minify
+      - tailwindcss -i ./tailwind.css -o ./static/css/tailwind.min.css --minify
     generates:
-      - web/static/css/tailwind.min.css
+      - static/css/tailwind.min.css
 
   goose:
     cmds:
@@ -87,7 +88,7 @@ tasks:
 
   clean:
     cmds:
-      - rm -rfv data/sqlc
+      - rm -rfv internal/sql
       - find . -type f -name '*_templ.go' | xargs --no-run-if-empty rm -rfv
-      - rm -rfv web/static/css/tailwind.min.css
+      - rm -rfv static/css/tailwind.min.css
       - rm -rfv bin/go-starter

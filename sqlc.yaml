@@ -1,12 +1,12 @@
 version: "2"
 sql:
 - engine: "postgresql"
-  schema: "data/migrations"
-  queries: "data/queries"
+  schema: "data/migration"
+  queries: "data/query"
   gen:
     go:
-      package: "sqlc"
-      out: "data/sqlc"
+      package: "sql"
+      out: "internal/sql"
       sql_package: "pgx/v5"
       emit_empty_slices: true
       emit_interface: true

@@ -1,7 +1,7 @@
 .idea/
 .task/
 bin/
-data/sqlc/
+internal/sql/
 *_templ.go
 *.min.css
 .env

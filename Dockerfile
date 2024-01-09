@@ -26,6 +26,6 @@ FROM cgr.dev/chainguard/glibc-dynamic
 WORKDIR /app
 
 COPY --from=builder /app/bin/go-starter ./
-COPY --from=builder /app/web/static ./web/static
+COPY --from=builder /app/static ./static
 
 CMD ["./go-starter"]

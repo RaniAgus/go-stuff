@@ -9,9 +9,9 @@ Golang starter project.
 - [pgx](https://github.com/jackc/pgx) as a PostgreSQL driver
 - [sqlc](https://sqlc.dev/) for generating code from SQL queries
 - [chi](https://go-chi.io/) for routing
-- [templ](https://templ.guide/) as a template engine
 - [validator](https://pkg.go.dev/github.com/go-playground/validator/v10) for validating input data
-- [uuid](https://pkg.go.dev/github.com/google/uuid) for generating UUIDs
+- [templ](https://templ.guide/) as a template engine
+- [merakiui](https://merakiui.com/) for styling with [tailwindcss](https://tailwindcss.com/) components
 
 
 ## Install dev dependencies

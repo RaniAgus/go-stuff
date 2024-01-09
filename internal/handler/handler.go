@@ -1,17 +1,17 @@
-package web
+package handler
 
 import (
 	"log"
 	"net/http"
 
-	"github.com/RaniAgus/go-starter/data/sqlc"
-	"github.com/RaniAgus/go-starter/util"
-	"github.com/RaniAgus/go-starter/web/templates"
+	"github.com/RaniAgus/go-starter/internal/sql"
+	"github.com/RaniAgus/go-starter/internal/util"
+	"github.com/RaniAgus/go-starter/templates"
 	"github.com/go-playground/validator/v10"
 )
 
 type Handler struct {
-	DB       sqlc.Querier
+	DB       sql.Querier
 	Validate *validator.Validate
 }
 
@@ -33,7 +33,7 @@ func (h Handler) NotFound(w http.ResponseWriter, r *http.Request) error {
 type ErrorHandlerFunc func(w http.ResponseWriter, r *http.Request, err error)
 
 func (h Handler) HandlePageError(w http.ResponseWriter, r *http.Request, err error) {
-	msg := "Something went wrong"
+	msg := ""
 	if apiError, ok := err.(util.APIError); ok {
 		msg = apiError.Message
 	} else {
