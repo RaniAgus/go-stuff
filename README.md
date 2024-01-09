@@ -24,7 +24,7 @@ chmod +x ./scripts/install-deps.sh
 ## Create migration file
 
 ```bash
-task migration name=<migration_name>
+task goose -- create <migration_name> sql
 ```
 
 ## Start server in watch mode

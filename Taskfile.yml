@@ -37,7 +37,7 @@ tasks:
       - data/queries/**/*.sql
       - sqlc.yaml
     cmds:
-      - sqlc generate
+      - sqlc {{default "generate" .CLI_ARGS}}
     generates:
       - data/sqlc/**/*.go
 
@@ -46,7 +46,7 @@ tasks:
     sources:
       - web/templates/*.templ
     cmds:
-      - templ generate
+      - templ {{default "generate" .CLI_ARGS}}
     generates:
       - web/templates/**/*_templ.go
 
@@ -62,18 +62,12 @@ tasks:
     generates:
       - web/static/css/tailwind.min.css
 
-  migrate:
-    sources:
-      - data/migrations/**/*.sql
+  goose:
     cmds:
-      - goose -dir data/migrations postgres "{{.DBSTRING}}" up
-
-  add-migration:
-    requires:
-      vars:
-        - "NAME"
-    cmds:
-      - goose -dir data/migrations postgres "{{.DBSTRING}}" create "{{.NAME}}" sql
+      - goose -dir data/migration {{default "up" .CLI_ARGS}}
+    env:
+      GOOSE_DRIVER: postgres
+      GOOSE_DBSTRING: "{{.DBSTRING}}"
 
   build:
     deps:
