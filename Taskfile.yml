@@ -13,7 +13,6 @@ tasks:
 
   run:
     deps:
-      - migrate
       - generate
     sources:
       - "**/*.go"
@@ -29,10 +28,11 @@ tasks:
   generate:
     deps:
       - sqlc
-      - templ
       - tailwindcss
+      - templ
 
   sqlc:
+    run: when_changed
     sources:
       - data/queries/**/*.sql
       - sqlc.yaml
@@ -42,6 +42,7 @@ tasks:
       - data/sqlc/**/*.go
 
   templ:
+    run: when_changed
     sources:
       - web/templates/*.templ
     cmds:
@@ -50,8 +51,10 @@ tasks:
       - web/templates/**/*_templ.go
 
   tailwindcss:
+    run: when_changed
+    deps:
+      - templ
     sources:
-      - web/templates/**/*.templ
       - tailwind.config.js
       - tailwind.css
     cmds:
@@ -74,7 +77,6 @@ tasks:
 
   build:
     deps:
-      - migrate
       - generate
     sources:
       - "**/*.go"
