@@ -13,13 +13,14 @@ func NewRouter(h web.Handler) *chi.Mux {
 	fs := http.FileServer(http.Dir("web/static"))
 
 	r.Use(middleware.Logger)
+	r.Get("/", route(h.GetHome, h.HandlePageError))
 	r.Handle("/static/*", http.StripPrefix("/static/", fs))
-	r.Get("/", Route(h.GetHome, h.HandlePageError))
+	r.NotFound(route(h.NotFound, h.HandlePageError))
 
 	return r
 }
 
-func Route(handlerFn web.HandlerFunc, errorFn web.ErrorHandlerFunc) http.HandlerFunc {
+func route(handlerFn web.HandlerFunc, errorFn web.ErrorHandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := handlerFn(w, r); err != nil {
 			errorFn(w, r, err)
