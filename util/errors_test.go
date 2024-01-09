@@ -65,50 +65,26 @@ type FakeFieldError struct {
 	field string
 }
 
-func (err FakeFieldError) Tag() string {
-	return ""
-}
+func (err FakeFieldError) Tag() string { return "" }
 
-func (err FakeFieldError) ActualTag() string {
-	return ""
-}
+func (err FakeFieldError) ActualTag() string { return "" }
 
-func (err FakeFieldError) Namespace() string {
-	return ""
-}
+func (err FakeFieldError) Namespace() string { return "" }
 
-func (err FakeFieldError) StructNamespace() string {
-	return ""
-}
+func (err FakeFieldError) StructNamespace() string { return "" }
 
-func (err FakeFieldError) Field() string {
-	return err.field
-}
+func (err FakeFieldError) Field() string { return err.field }
 
-func (err FakeFieldError) StructField() string {
-	return ""
-}
+func (err FakeFieldError) StructField() string { return "" }
 
-func (err FakeFieldError) Value() interface{} {
-	return ""
-}
+func (err FakeFieldError) Value() interface{} { return "" }
 
-func (err FakeFieldError) Param() string {
-	return ""
-}
+func (err FakeFieldError) Param() string { return "" }
 
-func (err FakeFieldError) Kind() reflect.Kind {
-	return reflect.String
-}
+func (err FakeFieldError) Kind() reflect.Kind { return reflect.String }
 
-func (err FakeFieldError) Type() reflect.Type {
-	return reflect.TypeOf("")
-}
+func (err FakeFieldError) Type() reflect.Type { return reflect.TypeOf("") }
 
-func (err FakeFieldError) Translate(translator ut.Translator) string {
-	return ""
-}
+func (err FakeFieldError) Translate(translator ut.Translator) string { return "" }
 
-func (err FakeFieldError) Error() string {
-	return fmt.Sprintf("Field %s is invalid", err.field)
-}
+func (err FakeFieldError) Error() string { return fmt.Sprintf("Field %s is invalid", err.field) }
