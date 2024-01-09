@@ -15,6 +15,7 @@ func Serve(h handler.Handler) {
 	fs := http.FileServer(http.Dir("static"))
 
 	r.Use(middleware.Logger)
+	r.Use(middleware.NoCache)
 	r.Get("/", route(h.GetHome, h.HandlePageError))
 	r.Handle("/static/*", http.StripPrefix("/static/", fs))
 	r.NotFound(route(h.NotFound, h.HandlePageError))

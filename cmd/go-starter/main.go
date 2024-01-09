@@ -13,7 +13,7 @@ func main() {
 	defer db.Close(context.Background())
 
 	h := handler.Handler{
-		DB:       sql.New(db),
+		Queries:  sql.New(db),
 		Validate: internal.NewValidator(),
 	}
 

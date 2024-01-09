@@ -11,7 +11,7 @@ import (
 )
 
 type Handler struct {
-	DB       sql.Querier
+	Queries  sql.Querier
 	Validate *validator.Validate
 }
 
