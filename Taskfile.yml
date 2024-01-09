@@ -85,6 +85,12 @@ tasks:
     cmds:
       - go build -C cmd/go-starter -o {{.PWD}}/bin/go-starter
 
+  test:
+    deps:
+      - generate
+    cmds:
+      - go test ./...
+
   clean:
     cmds:
       - rm -rfv data/sqlc

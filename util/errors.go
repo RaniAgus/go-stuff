@@ -16,6 +16,10 @@ func (err APIError) Error() string {
 }
 
 func GetValidationErrorFields(err error) []string {
+	if _, ok := err.(validator.ValidationErrors); !ok {
+		return []string{}
+	}
+
 	errors := []string{}
 	for _, err := range err.(validator.ValidationErrors) {
 		// If the error is a slice or map, we remove the key from the field name
