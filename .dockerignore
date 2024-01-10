@@ -2,6 +2,7 @@
 .vscode/
 bin/
 internal/sql/
+public/css/tailwind.min.css
 scripts/install-deps.sh
 .env
 .env.example

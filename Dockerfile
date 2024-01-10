@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/go AS builder
+FROM golang:1-alpine AS go-builder
 
 ENV GOBIN=/usr/local/bin
 
@@ -6,10 +6,6 @@ RUN go install github.com/go-task/task/v3/cmd/task@latest \
  && go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest \
  && go install github.com/pressly/goose/v3/cmd/goose@latest \
  && go install github.com/a-h/templ/cmd/templ@latest
-
-ADD https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 /usr/local/bin/tailwindcss
-
-RUN chmod +x /usr/local/bin/tailwindcss
 
 WORKDIR /app
 
@@ -21,11 +17,28 @@ COPY . ./
 
 RUN task build
 
+
+FROM node:20-alpine AS node-builder
+
+WORKDIR /app/templates
+
+COPY templates ./
+
+WORKDIR /app/styles
+
+COPY styles ./
+
+RUN npm install
+
+RUN npm run build
+
+
 FROM cgr.dev/chainguard/glibc-dynamic
 
 WORKDIR /app
 
-COPY --from=builder /app/bin/go-starter ./
-COPY --from=builder /app/public ./public
+COPY --from=go-builder /app/bin/go-starter ./
+COPY --from=go-builder /app/public/ ./public
+COPY --from=node-builder /app/public/ ./public
 
-CMD ["./go-starter"]
+ENTRYPOINT ["./go-starter"]
