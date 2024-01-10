@@ -52,8 +52,6 @@ tasks:
 
   tailwindcss:
     run: when_changed
-    deps:
-      - templ
     sources:
       - templates/*.templ
       - tailwind.config.js
