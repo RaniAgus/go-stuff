@@ -59,9 +59,9 @@ tasks:
       - tailwind.config.js
       - tailwind.css
     cmds:
-      - tailwindcss -i ./tailwind.css -o ./static/css/tailwind.min.css --minify
+      - tailwindcss -i ./tailwind.css -o ./public/css/tailwind.min.css --minify
     generates:
-      - static/css/tailwind.min.css
+      - public/css/tailwind.min.css
 
   goose:
     cmds:
@@ -90,5 +90,5 @@ tasks:
     cmds:
       - rm -rfv internal/sql
       - find . -type f -name '*_templ.go' | xargs --no-run-if-empty rm -rfv
-      - rm -rfv static/css/tailwind.min.css
+      - rm -rfv public/css/tailwind.min.css
       - rm -rfv bin/go-starter

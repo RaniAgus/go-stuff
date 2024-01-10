@@ -12,12 +12,12 @@ import (
 
 func Serve(h handler.Handler) {
 	r := chi.NewRouter()
-	fs := http.FileServer(http.Dir("static"))
+	fs := http.FileServer(http.Dir("public"))
 
 	r.Use(middleware.Logger)
 	r.Use(middleware.NoCache)
 	r.Get("/", route(h.GetHome, h.HandlePageError))
-	r.Handle("/static/*", http.StripPrefix("/static/", fs))
+	r.Handle("/public/*", http.StripPrefix("/public/", fs))
 	r.NotFound(route(h.NotFound, h.HandlePageError))
 
 	port := util.Getenv("PORT", "3000")
