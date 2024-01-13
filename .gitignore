@@ -1,0 +1,3 @@
+.task/
+public/css/tailwind.min.css
+templates/**/*_templ.go
