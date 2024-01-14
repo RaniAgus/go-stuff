@@ -31,8 +31,12 @@ templ Header(props HeaderProps) {
 			@HeaderBrandIcon(props.Brand.Icon)
 			@HeaderBrandText(props.Brand.Text)
 		}
-    @NavbarMenuHamburger() {}
-    @NavbarMenu() {
+    @NavbarMenuHamburger(templ.Attributes{
+      "class": "peer",
+    }) {}
+    @NavbarMenu(templ.Attributes{
+      "class": "opacity-0 peer-has-[:checked]:opacity-100 md:opacity-100 transition-opacity duration-200",
+    }) {
       @NavbarMenuList() {
         for _, element := range props.Elements {
           if element.Items == nil {
@@ -91,26 +95,27 @@ templ HeaderBrandText(text string, attrs ...templ.Attributes) {
 
 // Navbar
 templ NavbarMenu(attrs ...templ.Attributes) {
-  <nav class={ "hidden md:flex flex-row items-center gap-12", class(attrs) } { props(attrs)... }>
+  <nav class={ "fixed md:relative right-0 top-[--navbar-size] md:top-0 flex flex-col md:flex-row items-center gap-12 py-8 px-8 md:p-0 bg-neutral-800 md:bg-transparent", class(attrs) } { props(attrs)... }>
     { children... }
   </nav>
 }
 
 templ NavbarMenuHamburger(attrs ...templ.Attributes) {
   <button
-    class={ "flex md:hidden flex-col items-center justify-center gap-1 w-8 h-8 opacity-70 hover:opacity-100", class(attrs) }
+    class={ "flex md:hidden flex-col items-center justify-center gap-1 w-12 h-12 opacity-70 hover:opacity-100", class(attrs) }
     { props(attrs)... }
   >
-    <span class="w-5 h-0.5 bg-neutral-200"></span>
-    <span class="w-5 h-0.5 bg-neutral-200"></span>
-    <span class="w-5 h-0.5 bg-neutral-200"></span>
+    <input type="checkbox" class="peer opacity-0 fixed min-w-12 w-12 min-h-12 h-12 z-10" />
+    <span class="w-5 h-1 rounded bg-neutral-200 transition duration-200 peer-checked:rotate-45 peer-checked:translate-y-1"></span>
+    <span class="w-5 h-1 rounded bg-neutral-200 transition peer-checked:hidden"></span>
+    <span class="w-5 h-1 rounded bg-neutral-200 transition duration-200 peer-checked:-rotate-45 peer-checked:-translate-y-1"></span>
   </button>
 }
 
 // Menu
 
 templ NavbarMenuList(attrs ...templ.Attributes) {
-	<ul class={ "flex flex-row items-center gap-5", class(attrs) } { props(attrs)... }>
+	<ul class={ "flex flex-col md:flex-row items-center gap-5", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</ul>
 }
