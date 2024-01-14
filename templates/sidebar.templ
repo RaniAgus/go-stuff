@@ -24,7 +24,7 @@ templ Sidebar(elements []SidebarElement) {
 }
 
 templ SidebarMenu(attrs ...templ.Attributes) {
-	<aside class={"group/sidebar bottom-0 sm:bottom-auto h-20 sm:h-screen w-screen sm:w-20 fixed bg-neutral-800 sm:hover:w-64 sm:transition-[width] sm:duration-200 sm:ease-in-out", class(attrs)} {props(attrs)...}>
+	<aside class={"group/sidebar bottom-0 sm:bottom-auto h-[--sidebar-size] sm:h-screen w-screen sm:w-[--sidebar-size] fixed bg-neutral-800 sm:hover:w-64 sm:transition-[width] sm:duration-200 sm:ease-in-out", class(attrs)} {props(attrs)...}>
 		{children...}
 	</aside>
 }
@@ -42,7 +42,7 @@ templ SidebarMenuItem(attrs ...templ.Attributes) {
 }
 
 templ SidebarMenuLink(href string, attrs ...templ.Attributes) {
-	<a href={templ.URL(href)} class={"flex justify-center sm:justify-start items-center h-20 text-neutral-200 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 duration-500", class(attrs)} {props(attrs)...}>
+	<a href={templ.URL(href)} class={"flex justify-center sm:justify-start items-center h-[--sidebar-size] text-neutral-200 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 duration-500", class(attrs)} {props(attrs)...}>
 		{children...}
 	</a>
 }

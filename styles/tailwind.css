@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --sidebar-size: 5rem;
+}
+
 ::-webkit-scrollbar {
   width: 0.25rem;
 }
