@@ -2,13 +2,13 @@ package templates
 
 import "strings"
 
-type NavbarProps struct {
-  Brand    NavbarBrand
+type HeaderProps struct {
+  Brand    HeaderBrand
   Elements []NavbarElement
   Links    []NavbarSocialLink
 }
 
-type NavbarBrand struct {
+type HeaderBrand struct {
 	Link string
 	Icon Template
 	Text string
@@ -25,65 +25,86 @@ type NavbarSocialLink struct {
 	Icon Template
 }
 
-templ Navbar(props NavbarProps) {
-	@NavbarMenu() {
-		@NavbarBrandLink(props.Brand.Link) {
-			@NavbarBrandIcon(props.Brand.Icon)
-			@NavbarBrandText(props.Brand.Text)
+templ Header(props HeaderProps) {
+	@HeaderMenu() {
+		@HeaderBrandLink(props.Brand.Link) {
+			@HeaderBrandIcon(props.Brand.Icon)
+			@HeaderBrandText(props.Brand.Text)
 		}
-		@NavbarMenuList() {
-			for _, element := range props.Elements {
-				if element.Items == nil {
-					@NavbarMenuItem() {
-						@NavbarMenuLink(element.Link) {
-							{ element.Text }
-              if strings.HasPrefix(element.Link, "http") {
-                @IconExternalLink(templ.Attributes{
-                  "class": "min-h-3 h-3 text-neutral-200",
-                })
+    @NavbarMenuHamburger() {}
+    @NavbarMenu() {
+      @NavbarMenuList() {
+        for _, element := range props.Elements {
+          if element.Items == nil {
+            @NavbarMenuItem() {
+              @NavbarMenuLink(element.Link) {
+                { element.Text }
+                if strings.HasPrefix(element.Link, "http") {
+                  @IconExternalLink(templ.Attributes{
+                    "class": "min-h-3 h-3 text-neutral-200",
+                  })
+                }
               }
-						}
-					}
-				} else {
-					// Group
-				}
-			}
-		}
-		@NavbarMenuSocialList() {
-			for _, link := range props.Links {
-				@NavbarMenuSocialItem() {
-					@NavbarMenuSocialLink(link.Link) {
-						@NavbarMenuSocialIcon(link.Icon)
-					}
-				}
-			}
-		}
+            }
+          } else {
+            // Group
+          }
+        }
+      }
+      @NavbarMenuSocialList() {
+        for _, link := range props.Links {
+          @NavbarMenuSocialItem() {
+            @NavbarMenuSocialLink(link.Link) {
+              @NavbarMenuSocialIcon(link.Icon)
+            }
+          }
+        }
+      }
+    }
 	}
 }
 
-templ NavbarMenu(attrs ...templ.Attributes) {
-	<header class={ "h-[--navbar-size] w-screen top-0 fixed flex flex-row justify-end gap-4 bg-neutral-900 text-neutral-200", class(attrs) } { props(attrs)... }>
+templ HeaderMenu(attrs ...templ.Attributes) {
+	<header class={ "h-[--navbar-size] w-screen top-0 fixed flex flex-row justify-between items-center gap-4 bg-neutral-900 text-neutral-200 px-8", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</header>
 }
 
 // Brand
-templ NavbarBrandLink(href string, attrs ...templ.Attributes) {
-	<a href={ templ.URL(href) } class={ "h-full flex flex-row items-center gap-2 mr-auto px-8", class(attrs) } { props(attrs)... }>
+templ HeaderBrandLink(href string, attrs ...templ.Attributes) {
+	<a href={ templ.URL(href) } class={ "h-full flex flex-row items-center gap-2", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</a>
 }
 
-templ NavbarBrandIcon(icon Template, attrs ...templ.Attributes) {
+templ HeaderBrandIcon(icon Template, attrs ...templ.Attributes) {
 	@icon(append(attrs, templ.Attributes{
     "class": "min-w-6 w-6 mx-0 my-6",
   })...)
 }
 
-templ NavbarBrandText(text string, attrs ...templ.Attributes) {
+templ HeaderBrandText(text string, attrs ...templ.Attributes) {
 	<span class={ "text-lg font-bold", class(attrs) } { props(attrs)... }>
 		{ text }
 	</span>
+}
+
+// Navbar
+templ NavbarMenu(attrs ...templ.Attributes) {
+  <nav class={ "hidden md:flex flex-row items-center gap-12", class(attrs) } { props(attrs)... }>
+    { children... }
+  </nav>
+}
+
+templ NavbarMenuHamburger(attrs ...templ.Attributes) {
+  <button
+    class={ "flex md:hidden flex-col items-center justify-center gap-1 w-8 h-8 opacity-70 hover:opacity-100", class(attrs) }
+    { props(attrs)... }
+  >
+    <span class="w-5 h-0.5 bg-neutral-200"></span>
+    <span class="w-5 h-0.5 bg-neutral-200"></span>
+    <span class="w-5 h-0.5 bg-neutral-200"></span>
+  </button>
 }
 
 // Menu
@@ -109,7 +130,7 @@ templ NavbarMenuLink(href string, attrs ...templ.Attributes) {
 // Social
 
 templ NavbarMenuSocialList(attrs ...templ.Attributes) {
-	<ul class={ "flex flex-row items-center gap-4 px-8", class(attrs) } { props(attrs)... }>
+	<ul class={ "flex flex-row items-center gap-4", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</ul>
 }
