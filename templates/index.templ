@@ -7,6 +7,45 @@ templ Index() {
 			<link rel="stylesheet" href="/public/css/tailwind.min.css"/>
 		</head>
 		<body>
+			@Navbar(NavbarProps{
+				NavbarBrand{
+					Link: "/",
+					Icon: IconTux,
+					Text: "Sistemas Operativos",
+				},
+				[]NavbarElement{
+					{
+						Link: "https://faq.utnso.com.ar/blog",
+						Text: "Blog",
+					},
+					{
+						Link: "https://docs.utnso.com.ar/",
+						Text: "Docs",
+					},
+					{
+						Link: "/",
+						Text: "Inscripciones",
+					},
+				},
+				[]NavbarSocialLink{
+					{
+						Link: "#",
+						Icon: IconGitHub,
+					},
+					{
+						Link: "#",
+						Icon: IconUTN,
+					},
+					{
+						Link: "#",
+						Icon: IconDiscord,
+					},
+					{
+						Link: "#",
+						Icon: IconYouTube,
+					},
+				},
+			}) {}
 			@Sidebar([]SidebarElement {
 				{
 					Icon: IconCat,
@@ -34,7 +73,7 @@ templ Index() {
 					Link: "#",
 				},
 			}) {}
-			<main class="mb-[--sidebar-size] sm:mb-0 sm:ml-[--sidebar-size] p-4">
+			<main class="mt-[--navbar-size] mb-[--sidebar-size] sm:mb-0 sm:ml-[--sidebar-size] p-4">
 				@Heading1() {
 					CSS is Cool
 				}

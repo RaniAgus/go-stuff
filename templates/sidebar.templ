@@ -14,7 +14,7 @@ templ Sidebar(elements []SidebarElement) {
 					@SidebarMenuLink(element.Link) {
 						@SidebarMenuIcon(element.Icon)
 						@SidebarMenuText() {
-							{element.Text}
+							{ element.Text }
 						}
 					}
 				}
@@ -24,31 +24,31 @@ templ Sidebar(elements []SidebarElement) {
 }
 
 templ SidebarMenu(attrs ...templ.Attributes) {
-	<aside class={"group/sidebar bottom-0 sm:bottom-auto h-[--sidebar-size] sm:h-screen w-screen sm:w-[--sidebar-size] fixed bg-neutral-800 sm:hover:w-64 sm:transition-[width] sm:duration-200 sm:ease-in-out", class(attrs)} {props(attrs)...}>
-		{children...}
+	<aside class={ "group/sidebar bottom-0 sm:bottom-auto h-[--sidebar-size] sm:h-[calc(100vh_-_var(--navbar-size))] w-screen sm:w-[--sidebar-size] fixed bg-neutral-800 sm:hover:w-64 sm:transition-[width] sm:duration-200 sm:ease-in-out", class(attrs) } { props(attrs)... }>
+		{ children... }
 	</aside>
 }
 
 templ SidebarMenuList(attrs ...templ.Attributes) {
-	<ul class={"flex flex-row sm:flex-col items-center h-full", class(attrs)} {props(attrs)...}>
-		{children...}
+	<ul class={ "flex flex-row sm:flex-col items-center h-full", class(attrs) } { props(attrs)... }>
+		{ children... }
 	</ul>
 }
 
 templ SidebarMenuItem(attrs ...templ.Attributes) {
-	<li class={"w-full last:mt-auto", class(attrs)} {props(attrs)...}>
-		{children...}
+	<li class={ "w-full last:mt-auto", class(attrs) } { props(attrs)... }>
+		{ children... }
 	</li>
 }
 
 templ SidebarMenuLink(href string, attrs ...templ.Attributes) {
-	<a href={templ.URL(href)} class={"flex justify-center sm:justify-start items-center h-[--sidebar-size] text-neutral-200 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 duration-500", class(attrs)} {props(attrs)...}>
-		{children...}
+	<a href={ templ.URL(href) } class={ "flex justify-center sm:justify-start items-center h-[--sidebar-size] text-neutral-200 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 duration-500", class(attrs) } { props(attrs)... }>
+		{ children... }
 	</a>
 }
 
 templ SidebarMenuIcon(icon Template, attrs ...templ.Attributes) {
-  @icon(append(attrs, templ.Attributes{
+	@icon(append(attrs, templ.Attributes{
     "class": "min-w-8 w-8 mx-6 my-0",
     "class-primary": "text-fuchsia-300",
     "class-secondary": "text-fuchsia-400",
@@ -56,7 +56,7 @@ templ SidebarMenuIcon(icon Template, attrs ...templ.Attributes) {
 }
 
 templ SidebarMenuText(attrs ...templ.Attributes) {
-	<span class={"hidden ml-4 sm:group-hover/sidebar:block", class(attrs)} {props(attrs)...}>
-		{children...}
+	<span class={ "hidden ml-4 sm:group-hover/sidebar:block", class(attrs) } { props(attrs)... }>
+		{ children... }
 	</span>
 }
