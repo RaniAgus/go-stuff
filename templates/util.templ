@@ -1,0 +1,40 @@
+package templates
+
+import (
+  "fmt"
+  "slices"
+  "strings"
+)
+
+type Template func(attrs ...templ.Attributes) templ.Component
+
+func class(attrs []templ.Attributes) string {
+  return prop(attrs, "class")
+}
+
+func prop(attrs []templ.Attributes, key string) string {
+  prop := ""
+  for _, attr := range attrs {
+    if attr[key] == nil {
+      continue
+    }
+    prop += fmt.Sprintf("%v", attr[key]) + " "
+  }
+  return strings.TrimSpace(prop)
+}
+
+func props(attrs []templ.Attributes) templ.Attributes {
+  return filterNot(attrs, "class")
+}
+
+func filterNot(attrs []templ.Attributes, keys ...string) templ.Attributes {
+  filtered := make(templ.Attributes)
+  for _, attr := range attrs {
+    for key, value := range attr {
+      if !slices.Contains(keys, key) {
+        filtered[key] = value
+      }
+    }
+  }
+  return filtered
+}

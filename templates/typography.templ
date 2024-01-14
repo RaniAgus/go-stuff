@@ -1,0 +1,32 @@
+package templates
+
+templ Heading1(attrs ...templ.Attributes) {
+  <h1 class={"scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl", class(attrs)} {props(attrs)...}>
+    {children...}
+  </h1>
+}
+
+templ Heading2(attrs ...templ.Attributes) {
+  <h2 class={"scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0", class(attrs)} {props(attrs)...}>
+    {children...}
+  </h2>
+}
+
+templ Heading3(attrs ...templ.Attributes) {
+  <h3 class={"scroll-m-20 text-2xl font-semibold tracking-tight", class(attrs)} {props(attrs)...}>
+    {children...}
+  </h3>
+}
+
+templ Heading4(attrs ...templ.Attributes) {
+  <h4 class={"scroll-m-20 text-xl font-semibold tracking-tight", class(attrs)} {props(attrs)...}>
+    {children...}
+  </h4>
+
+}
+
+templ Paragraph(attrs ...templ.Attributes) {
+  <p class={"leading-7 [&:not(:first-child)]:mt-6", class(attrs)} {props(attrs)...}>
+    {children...}
+  </p>
+}
