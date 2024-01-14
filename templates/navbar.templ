@@ -17,19 +17,19 @@ type HeaderBrand struct {
 type NavbarElement struct {
 	Link  string
 	Text  string
-	Items []NavbarElement
 }
 
 type NavbarSocialLink struct {
 	Link string
 	Icon Template
+  Title string
 }
 
 templ Header(props HeaderProps) {
 	@HeaderMenu() {
 		@HeaderBrandLink(props.Brand.Link) {
-			@HeaderBrandIcon(props.Brand.Icon)
-			@HeaderBrandText(props.Brand.Text)
+			@HeaderBrandIcon(props.Brand.Icon) {}
+			@HeaderBrandText(props.Brand.Text) {}
 		}
     @NavbarMenuHamburger(templ.Attributes{
       "class": "peer",
@@ -39,19 +39,15 @@ templ Header(props HeaderProps) {
     }) {
       @NavbarMenuList() {
         for _, element := range props.Elements {
-          if element.Items == nil {
-            @NavbarMenuItem() {
-              @NavbarMenuLink(element.Link) {
-                { element.Text }
-                if strings.HasPrefix(element.Link, "http") {
-                  @IconExternalLink(templ.Attributes{
-                    "class": "min-h-3 h-3 text-neutral-200",
-                  })
-                }
+          @NavbarMenuItem() {
+            @NavbarMenuLink(element.Link) {
+              { element.Text }
+              if strings.HasPrefix(element.Link, "http") {
+                @IconExternalLink(templ.Attributes{
+                  "class": "min-h-3 h-3 text-neutral-200",
+                })
               }
             }
-          } else {
-            // Group
           }
         }
       }
@@ -59,7 +55,9 @@ templ Header(props HeaderProps) {
         for _, link := range props.Links {
           @NavbarMenuSocialItem() {
             @NavbarMenuSocialLink(link.Link) {
-              @NavbarMenuSocialIcon(link.Icon)
+              @NavbarMenuSocialIcon(link.Icon) {
+                <title>{ link.Title }</title>
+              }
             }
           }
         }
@@ -84,7 +82,7 @@ templ HeaderBrandLink(href string, attrs ...templ.Attributes) {
 templ HeaderBrandIcon(icon Template, attrs ...templ.Attributes) {
 	@icon(append(attrs, templ.Attributes{
     "class": "min-w-6 w-6 mx-0 my-6",
-  })...)
+  })...) {}
 }
 
 templ HeaderBrandText(text string, attrs ...templ.Attributes) {
@@ -121,7 +119,7 @@ templ NavbarMenuList(attrs ...templ.Attributes) {
 }
 
 templ NavbarMenuItem(attrs ...templ.Attributes) {
-	<li class={ "flex justify-center w-full opacity-70 hover:opacity-100", class(attrs) } { props(attrs)... }>
+	<li class={ "flex sh justify-center opacity-70 hover:opacity-100", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</li>
 }
@@ -155,5 +153,7 @@ templ NavbarMenuSocialLink(href string, attrs ...templ.Attributes) {
 templ NavbarMenuSocialIcon(icon Template, attrs ...templ.Attributes) {
 	@icon(append(attrs, templ.Attributes{
     "class": "min-h-5 h-5 text-neutral-200",
-  })...)
+  })...) {
+    { children... }
+  }
 }
