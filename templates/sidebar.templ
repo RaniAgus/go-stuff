@@ -47,12 +47,12 @@ templ SidebarMenuLink(href string, attrs ...templ.Attributes) {
 	</a>
 }
 
-templ SidebarMenuIcon(icon Template) {
-  @icon(templ.Attributes{
+templ SidebarMenuIcon(icon Template, attrs ...templ.Attributes) {
+  @icon(append(attrs, templ.Attributes{
     "class": "min-w-8 w-8 mx-6 my-0",
-    "primary": "text-fuchsia-300",
-    "secondary": "text-fuchsia-400",
-  })
+    "class-primary": "text-fuchsia-300",
+    "class-secondary": "text-fuchsia-400",
+  })...)
 }
 
 templ SidebarMenuText(attrs ...templ.Attributes) {
