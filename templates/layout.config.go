@@ -8,16 +8,19 @@ var HeaderAll = HeaderProps{
 	},
 	Elements: []NavbarElement{
 		{
-			Link: "#",
-			Text: "Docs",
+			Link:   "#",
+			Text:   "Docs",
+			Active: false,
 		},
 		{
-			Link: "#",
-			Text: "Blog",
+			Link:   "#",
+			Text:   "Blog",
+			Active: true,
 		},
 		{
-			Link: "#",
-			Text: "Contact us",
+			Link:   "#",
+			Text:   "Contact us",
+			Active: false,
 		},
 	},
 	Links: []NavbarSocialLink{
@@ -44,22 +47,22 @@ var SidebarUser = SidebarProps{
 		{
 			Icon: IconCat,
 			Text: "Cats",
-			Link: "#",
+			Link: "/cats",
 		},
 		{
 			Icon: IconAlien,
 			Text: "Aliens",
-			Link: "#",
+			Link: "/aliens",
 		},
 		{
 			Icon: IconMoon,
 			Text: "Space",
-			Link: "#",
+			Link: "/space",
 		},
 		{
 			Icon: IconShuttle,
 			Text: "Shuttle",
-			Link: "#",
+			Link: "/shuttle",
 		},
 		{
 			Icon: IconStars,

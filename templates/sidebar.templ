@@ -1,5 +1,7 @@
 package templates
 
+import "strings"
+
 type SidebarProps struct {
 	Elements []SidebarElement
 }
@@ -10,12 +12,12 @@ type SidebarElement struct {
 	Link string
 }
 
-templ Sidebar(props SidebarProps) {
+templ Sidebar(props SidebarProps, activeRoute string) {
 	@SidebarMenu() {
 		@SidebarMenuList() {
 			for _, element := range props.Elements {
 				@SidebarMenuItem() {
-					@SidebarMenuLink(element.Link) {
+					@SidebarMenuLink(element.Link, strings.HasPrefix(activeRoute, element.Link)) {
 						@SidebarMenuIcon(element.Icon)
 						@SidebarMenuText() {
 							{ element.Text }
@@ -45,8 +47,10 @@ templ SidebarMenuItem(attrs ...templ.Attributes) {
 	</li>
 }
 
-templ SidebarMenuLink(href string, attrs ...templ.Attributes) {
-	<a href={ templ.URL(href) } class={ "flex justify-center sm:justify-start items-center h-[--sidebar-size] text-neutral-200 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 duration-500", class(attrs) } { props(attrs)... }>
+templ SidebarMenuLink(href string, active bool, attrs ...templ.Attributes) {
+	<a
+		href={ templ.URL(href) }
+		class={ "flex justify-center sm:justify-start items-center h-[--sidebar-size] hover:bg-neutral-700 text-neutral-200 grayscale duration-500", class(attrs), templ.KV("grayscale-0", active) } { props(attrs)... }>
 		{ children... }
 	</a>
 }
@@ -54,8 +58,8 @@ templ SidebarMenuLink(href string, attrs ...templ.Attributes) {
 templ SidebarMenuIcon(icon Template, attrs ...templ.Attributes) {
 	@icon(append(attrs, templ.Attributes{
     "class": "min-w-8 w-8 mx-6 my-0",
-    "class-primary": "text-fuchsia-300",
-    "class-secondary": "text-fuchsia-400",
+    "class-primary": "text-indigo-200",
+    "class-secondary": "text-indigo-400",
   })...)
 }
 

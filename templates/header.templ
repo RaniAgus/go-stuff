@@ -15,8 +15,9 @@ type HeaderBrand struct {
 }
 
 type NavbarElement struct {
-	Link string
-	Text string
+	Link   string
+	Text   string
+	Active bool
 }
 
 type NavbarSocialLink struct {
@@ -40,7 +41,7 @@ templ Header(props HeaderProps) {
 			@NavbarMenuList() {
 				for _, element := range props.Elements {
 					@NavbarMenuItem() {
-						@NavbarMenuLink(element.Link) {
+						@NavbarMenuLink(element.Link, element.Active) {
 							{ element.Text }
 							if strings.HasPrefix(element.Link, "http") {
 								@IconExternalLink(templ.Attributes{
@@ -112,19 +113,19 @@ templ NavbarMenuHamburger(attrs ...templ.Attributes) {
 
 // Menu
 templ NavbarMenuList(attrs ...templ.Attributes) {
-	<ul class={ "flex flex-col md:flex-row items-center gap-5", class(attrs) } { props(attrs)... }>
+	<ul class={ "flex flex-col h-full w-full md:flex-row items-center gap-2", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</ul>
 }
 
 templ NavbarMenuItem(attrs ...templ.Attributes) {
-	<li class={ "flex sh justify-center opacity-70 hover:opacity-100", class(attrs) } { props(attrs)... }>
+	<li class={ "flex justify-center hover:bg-neutral-800 rounded-md", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</li>
 }
 
-templ NavbarMenuLink(href string, attrs ...templ.Attributes) {
-	<a href={ templ.URL(href) } class={ "flex flex-row items-center gap-1 w-full text-base", class(attrs) } { props(attrs)... }>
+templ NavbarMenuLink(href string, active bool, attrs ...templ.Attributes) {
+	<a href={ templ.URL(href) } class={ "flex flex-row items-center gap-1 w-full text-base p-3", templ.KV("text-indigo-300", active), class(attrs) } { props(attrs)... }>
 		{ children... }
 	</a>
 }
