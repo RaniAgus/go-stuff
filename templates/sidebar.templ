@@ -57,9 +57,7 @@ templ SidebarMenuLink(href string, active bool, attrs ...templ.Attributes) {
 
 templ SidebarMenuIcon(icon Template, attrs ...templ.Attributes) {
 	@icon(append(attrs, templ.Attributes{
-    "class": "min-w-8 w-8 mx-6 my-0",
-    "class-primary": "text-indigo-200",
-    "class-secondary": "text-indigo-400",
+    "class": "min-w-8 w-8 mx-6 my-0 text-indigo-400",
   })...)
 }
 

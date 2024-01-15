@@ -33,9 +33,9 @@ func main() {
 		http.Redirect(w, r, "/cats", http.StatusMovedPermanently)
 	})
 	r.Get("/cats", handle)
-	r.Get("/aliens", handle)
-	r.Get("/space", handle)
-	r.Get("/shuttle", handle)
+	r.Get("/dogs", handle)
+	r.Get("/dragons", handle)
+	r.Get("/spiders", handle)
 	r.Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
 	port := "3000"
