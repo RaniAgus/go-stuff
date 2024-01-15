@@ -3,9 +3,9 @@ package templates
 import "strings"
 
 type HeaderProps struct {
-  Brand    HeaderBrand
-  Elements []NavbarElement
-  Links    []NavbarSocialLink
+	Brand    HeaderBrand
+	Elements []NavbarElement
+	Links    []NavbarSocialLink
 }
 
 type HeaderBrand struct {
@@ -15,54 +15,54 @@ type HeaderBrand struct {
 }
 
 type NavbarElement struct {
-	Link  string
-	Text  string
+	Link string
+	Text string
 }
 
 type NavbarSocialLink struct {
-	Link string
-	Icon Template
-  Title string
+	Link  string
+	Icon  Template
+	Title string
 }
 
 templ Header(props HeaderProps) {
 	@HeaderMenu() {
 		@HeaderBrandLink(props.Brand.Link) {
-			@HeaderBrandIcon(props.Brand.Icon) {}
-			@HeaderBrandText(props.Brand.Text) {}
+			@HeaderBrandIcon(props.Brand.Icon)
+			@HeaderBrandText(props.Brand.Text)
 		}
-    @NavbarMenuHamburger(templ.Attributes{
+		@NavbarMenuHamburger(templ.Attributes{
       "class": "peer",
-    }) {}
-    @NavbarMenu(templ.Attributes{
+    })
+		@NavbarMenu(templ.Attributes{
       "class": "opacity-0 peer-has-[:checked]:opacity-100 md:opacity-100 transition-opacity duration-200",
     }) {
-      @NavbarMenuList() {
-        for _, element := range props.Elements {
-          @NavbarMenuItem() {
-            @NavbarMenuLink(element.Link) {
-              { element.Text }
-              if strings.HasPrefix(element.Link, "http") {
-                @IconExternalLink(templ.Attributes{
+			@NavbarMenuList() {
+				for _, element := range props.Elements {
+					@NavbarMenuItem() {
+						@NavbarMenuLink(element.Link) {
+							{ element.Text }
+							if strings.HasPrefix(element.Link, "http") {
+								@IconExternalLink(templ.Attributes{
                   "class": "min-h-3 h-3 text-neutral-200",
                 })
-              }
-            }
-          }
-        }
-      }
-      @NavbarMenuSocialList() {
-        for _, link := range props.Links {
-          @NavbarMenuSocialItem() {
-            @NavbarMenuSocialLink(link.Link) {
-              @NavbarMenuSocialIcon(link.Icon) {
-                <title>{ link.Title }</title>
-              }
-            }
-          }
-        }
-      }
-    }
+							}
+						}
+					}
+				}
+			}
+			@NavbarMenuSocialList() {
+				for _, link := range props.Links {
+					@NavbarMenuSocialItem() {
+						@NavbarMenuSocialLink(link.Link) {
+							@NavbarMenuSocialIcon(link.Icon) {
+								<title>{ link.Title }</title>
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -82,7 +82,7 @@ templ HeaderBrandLink(href string, attrs ...templ.Attributes) {
 templ HeaderBrandIcon(icon Template, attrs ...templ.Attributes) {
 	@icon(append(attrs, templ.Attributes{
     "class": "min-w-6 w-6 mx-0 my-6",
-  })...) {}
+  })...)
 }
 
 templ HeaderBrandText(text string, attrs ...templ.Attributes) {
@@ -93,25 +93,24 @@ templ HeaderBrandText(text string, attrs ...templ.Attributes) {
 
 // Navbar
 templ NavbarMenu(attrs ...templ.Attributes) {
-  <nav class={ "fixed md:relative right-0 top-[--navbar-size] md:top-0 flex flex-col md:flex-row items-center gap-12 py-8 px-8 md:p-0 bg-neutral-800 md:bg-transparent", class(attrs) } { props(attrs)... }>
-    { children... }
-  </nav>
+	<nav class={ "fixed md:relative right-0 top-[--navbar-size] md:top-0 flex flex-col md:flex-row items-center gap-12 py-8 px-8 md:p-0 bg-neutral-800 md:bg-transparent", class(attrs) } { props(attrs)... }>
+		{ children... }
+	</nav>
 }
 
 templ NavbarMenuHamburger(attrs ...templ.Attributes) {
-  <button
-    class={ "flex md:hidden flex-col items-center justify-center gap-1 w-12 h-12 opacity-70 hover:opacity-100", class(attrs) }
-    { props(attrs)... }
-  >
-    <input type="checkbox" class="peer opacity-0 fixed min-w-12 w-12 min-h-12 h-12 z-10" />
-    <span class="w-5 h-1 rounded bg-neutral-200 transition duration-200 peer-checked:rotate-45 peer-checked:translate-y-1"></span>
-    <span class="w-5 h-1 rounded bg-neutral-200 transition peer-checked:hidden"></span>
-    <span class="w-5 h-1 rounded bg-neutral-200 transition duration-200 peer-checked:-rotate-45 peer-checked:-translate-y-1"></span>
-  </button>
+	<button
+		class={ "flex md:hidden flex-col items-center justify-center gap-1 w-12 h-12 opacity-70 hover:opacity-100", class(attrs) }
+		{ props(attrs)... }
+	>
+		<input type="checkbox" class="peer opacity-0 fixed min-w-12 w-12 min-h-12 h-12 z-10"/>
+		<span class="w-5 h-1 rounded bg-neutral-200 transition duration-200 peer-checked:rotate-45 peer-checked:translate-y-1"></span>
+		<span class="w-5 h-1 rounded bg-neutral-200 transition peer-checked:hidden"></span>
+		<span class="w-5 h-1 rounded bg-neutral-200 transition duration-200 peer-checked:-rotate-45 peer-checked:-translate-y-1"></span>
+	</button>
 }
 
 // Menu
-
 templ NavbarMenuList(attrs ...templ.Attributes) {
 	<ul class={ "flex flex-col md:flex-row items-center gap-5", class(attrs) } { props(attrs)... }>
 		{ children... }
@@ -131,7 +130,6 @@ templ NavbarMenuLink(href string, attrs ...templ.Attributes) {
 }
 
 // Social
-
 templ NavbarMenuSocialList(attrs ...templ.Attributes) {
 	<ul class={ "flex flex-row items-center gap-4", class(attrs) } { props(attrs)... }>
 		{ children... }
@@ -154,6 +152,6 @@ templ NavbarMenuSocialIcon(icon Template, attrs ...templ.Attributes) {
 	@icon(append(attrs, templ.Attributes{
     "class": "min-h-5 h-5 text-neutral-200",
   })...) {
-    { children... }
-  }
+		{ children... }
+	}
 }

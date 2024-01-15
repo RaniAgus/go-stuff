@@ -1,0 +1,9 @@
+package templates
+
+templ Layout() {
+	@Header(ctx.Value(HeaderKey).(HeaderProps))
+	@Sidebar(ctx.Value(SidebarKey).(SidebarProps))
+	<main class="mt-[--navbar-size] mb-[--sidebar-size] sm:mb-0 sm:ml-[--sidebar-size] p-4">
+		{ children... }
+	</main>
+}
