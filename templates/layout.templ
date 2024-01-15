@@ -1,5 +1,7 @@
 package templates
 
+import "strings"
+
 type contextKey int
 
 const (
@@ -8,10 +10,106 @@ const (
 	RouteKey
 )
 
+type HeaderProps struct {
+	Brand    HeaderBrand
+	Elements []NavbarElement
+	Links    []NavbarSocialLink
+}
+
+type SidebarProps struct {
+	Elements []SidebarElement
+}
+
 templ Layout() {
 	@Header(ctx.Value(HeaderKey).(HeaderProps))
 	@Sidebar(ctx.Value(SidebarKey).(SidebarProps), ctx.Value(RouteKey).(string))
 	<main class="mt-[--navbar-size] mb-[--sidebar-size] sm:mb-0 sm:ml-[--sidebar-size] p-4">
 		{ children... }
 	</main>
+}
+
+// Header
+
+type HeaderBrand struct {
+	Link string
+	Icon Template
+	Text string
+}
+
+type NavbarElement struct {
+	Link   string
+	Text   string
+	Active bool
+}
+
+type NavbarSocialLink struct {
+	Link  string
+	Icon  Template
+	Title string
+}
+
+templ Header(props HeaderProps) {
+	@HeaderMenu() {
+		@HeaderBrandLink(props.Brand.Link) {
+			@HeaderBrandIcon(props.Brand.Icon)
+			@HeaderBrandText(props.Brand.Text)
+		}
+		@NavbarMenuHamburger(templ.Attributes{
+      "class": "peer",
+    })
+		@NavbarMenu(templ.Attributes{
+      "class": "opacity-0 peer-has-[:checked]:opacity-100 md:opacity-100 transition-opacity duration-200",
+    }) {
+			@NavbarMenuList() {
+				for _, element := range props.Elements {
+					@NavbarMenuItem() {
+						@NavbarMenuLink(element.Link, element.Active) {
+							{ element.Text }
+							if strings.HasPrefix(element.Link, "http") {
+								@IconExternalLink(templ.Attributes{
+                  "class": "min-h-3 h-3 text-neutral-200",
+                })
+							}
+						}
+					}
+				}
+			}
+			@NavbarMenuSocialList() {
+				for _, link := range props.Links {
+					@NavbarMenuSocialItem() {
+						@NavbarMenuSocialLink(link.Link) {
+							@NavbarMenuSocialIcon(link.Icon) {
+								<title>{ link.Title }</title>
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// Sidebar
+
+type SidebarElement struct {
+	Icon Template
+	Text string
+	Link string
+}
+
+templ Sidebar(props SidebarProps, activeRoute string) {
+	@SidebarMenu() {
+		@SidebarMenuList() {
+			for _, element := range props.Elements {
+				@SidebarMenuItem() {
+					@SidebarMenuLink(element.Link, strings.HasPrefix(activeRoute, element.Link)) {
+						@SidebarMenuIcon(element.Icon)
+						@SidebarMenuText() {
+							{ element.Text }
+						}
+					}
+				}
+			}
+		}
+	}
 }

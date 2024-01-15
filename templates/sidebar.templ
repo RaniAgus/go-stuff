@@ -1,34 +1,5 @@
 package templates
 
-import "strings"
-
-type SidebarProps struct {
-	Elements []SidebarElement
-}
-
-type SidebarElement struct {
-	Icon Template
-	Text string
-	Link string
-}
-
-templ Sidebar(props SidebarProps, activeRoute string) {
-	@SidebarMenu() {
-		@SidebarMenuList() {
-			for _, element := range props.Elements {
-				@SidebarMenuItem() {
-					@SidebarMenuLink(element.Link, strings.HasPrefix(activeRoute, element.Link)) {
-						@SidebarMenuIcon(element.Icon)
-						@SidebarMenuText() {
-							{ element.Text }
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
 templ SidebarMenu(attrs ...templ.Attributes) {
 	<aside class={ "group/sidebar bottom-0 sm:bottom-auto h-[--sidebar-size] sm:h-[calc(100vh_-_var(--navbar-size))] w-screen sm:w-[--sidebar-size] fixed bg-neutral-800 sm:hover:w-64 sm:transition-[width] sm:duration-200 sm:ease-in-out", class(attrs) } { props(attrs)... }>
 		{ children... }
