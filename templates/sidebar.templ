@@ -1,15 +1,19 @@
 package templates
 
+type SidebarProps struct {
+	Elements []SidebarElement
+}
+
 type SidebarElement struct {
 	Icon Template
 	Text string
 	Link string
 }
 
-templ Sidebar(elements []SidebarElement) {
+templ Sidebar(props SidebarProps) {
 	@SidebarMenu() {
 		@SidebarMenuList() {
-			for _, element := range elements {
+			for _, element := range props.Elements {
 				@SidebarMenuItem() {
 					@SidebarMenuLink(element.Link) {
 						@SidebarMenuIcon(element.Icon)

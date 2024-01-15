@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
@@ -9,11 +10,20 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
+func withLayout(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(r.Context(), templates.SidebarKey, templates.SidebarUser)
+		ctx = context.WithValue(ctx, templates.HeaderKey, templates.HeaderAll)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
 func main() {
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
 	r.Use(middleware.NoCache)
+	r.Use(withLayout)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		templates.Index().Render(r.Context(), w)
 	})

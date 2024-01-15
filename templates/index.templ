@@ -1,5 +1,12 @@
 package templates
 
+type contextKey int
+
+const (
+	HeaderKey contextKey = iota
+	SidebarKey
+)
+
 templ Index() {
 	<html>
 		<head>
@@ -8,71 +15,8 @@ templ Index() {
 			<link rel="stylesheet" href="/public/css/tailwind.min.css"/>
 		</head>
 		<body>
-			@Header(HeaderProps{
-				HeaderBrand{
-					Link: "/",
-					Icon: IconTux,
-					Text: "Linux World",
-				},
-				[]NavbarElement{
-					{
-						Link: "#",
-						Text: "Docs",
-					},
-					{
-						Link: "#",
-						Text: "Blog",
-					},
-					{
-						Link: "#",
-						Text: "Contact us",
-					},
-				},
-				[]NavbarSocialLink{
-					{
-						Link: "#",
-						Icon: IconGitHub,
-						Title: "GitHub",
-					},
-					{
-						Link: "#",
-						Icon: IconDiscord,
-						Title: "Discord",
-					},
-					{
-						Link: "#",
-						Icon: IconYouTube,
-						Title: "YouTube",
-					},
-				},
-			}) {}
-			@Sidebar([]SidebarElement {
-				{
-					Icon: IconCat,
-					Text: "Cats",
-					Link: "#",
-				},
-				{
-					Icon: IconAlien,
-					Text: "Aliens",
-					Link: "#",
-				},
-				{
-					Icon: IconMoon,
-					Text: "Space",
-					Link: "#",
-				},
-				{
-					Icon: IconShuttle,
-					Text: "Shuttle",
-					Link: "#",
-				},
-				{
-					Icon: IconStars,
-					Text: "Theme",
-					Link: "#",
-				},
-			}) {}
+			@Header(ctx.Value(HeaderKey).(HeaderProps)) {}
+			@Sidebar(ctx.Value(SidebarKey).(SidebarProps)) {}
 			<main class="mt-[--navbar-size] mb-[--sidebar-size] sm:mb-0 sm:ml-[--sidebar-size] p-4">
 				@Heading1() {
 					CSS is Cool
