@@ -20,7 +20,30 @@ func withLayout(next http.Handler) http.Handler {
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
-	templates.Index().Render(r.Context(), w)
+	cars := []templates.Car{
+		{
+			Make:     "Tesla",
+			Model:    "Model Y",
+			Price:    64950,
+			Electric: true,
+			Id:       1,
+		},
+		{
+			Make:     "Ford",
+			Model:    "F-Series",
+			Price:    33850,
+			Electric: false,
+			Id:       2,
+		},
+		{
+			Make:     "Toyota",
+			Model:    "Corolla",
+			Price:    29600,
+			Electric: false,
+			Id:       3,
+		},
+	}
+	templates.Index(cars).Render(r.Context(), w)
 }
 
 func main() {

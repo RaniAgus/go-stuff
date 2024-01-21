@@ -1,6 +1,20 @@
 package templates
 
-templ Index() {
+import "fmt"
+
+type Car struct {
+	Make     string `ag:"filter=true"`
+	Model    string `ag:"filter=true"`
+	Price    int    `ag:"filter=true"`
+	Electric bool   `ag:"filter=true"`
+	Id 		   int    `ag:"hide=true"`
+}
+
+func (car Car) Link() string {
+	return fmt.Sprintf("/cars/%d", car.Id)
+}
+
+templ Index(cars []Car) {
 	@Base("Home") {
 		@Layout() {
 			@Heading1() {
@@ -24,6 +38,9 @@ templ Index() {
 				carry fam. Offal fingerstache taxidermy, man bun venmo PBR&amp;B helvetica
 				thundercats everyday carry tote bag artisan cray wolf jianbing.
 			}
+			@Table("myGrid", cars, templ.Attributes{
+				"class": "pt-8 h-[500px]",
+			})
 			@Paragraph() {
 				Taxidermy thundercats whatever austin. VHS helvetica ethical, dreamcatcher
 				enamel pin YOLO shabby chic locavore man bun crucifix pabst chillwave

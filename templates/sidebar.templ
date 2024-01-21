@@ -1,7 +1,7 @@
 package templates
 
 templ SidebarMenu(attrs ...templ.Attributes) {
-	<aside class={ "group/sidebar bottom-0 sm:bottom-auto h-[--sidebar-size] sm:h-[calc(100vh_-_var(--navbar-size))] w-screen sm:w-[--sidebar-size] fixed bg-neutral-800 sm:hover:w-64 sm:transition-[width] sm:duration-200 sm:ease-in-out", class(attrs) } { props(attrs)... }>
+	<aside class={ "group/sidebar bottom-0 sm:bottom-auto h-[--sidebar-size] sm:h-[calc(100vh_-_var(--navbar-size))] w-screen sm:w-[--sidebar-size] fixed bg-neutral-800 sm:hover:w-64 sm:transition-[width] sm:duration-200 sm:ease-in-out z-50", class(attrs) } { props(attrs)... }>
 		{ children... }
 	</aside>
 }

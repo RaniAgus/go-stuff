@@ -1,0 +1,91 @@
+package templates
+
+import "reflect"
+import "strings"
+
+type onclick func (any)
+
+script agTable(id string, hasLink bool, gridOptions map[string]any) {
+  console.log(gridOptions);
+	const myGridElement = document.querySelector('#' + id);
+	const grid = agGrid.createGrid(myGridElement, gridOptions);
+  if (hasLink) {
+    grid.addEventListener('rowClicked', function(event) {
+      location.href = event.data.Link;
+    });
+  }
+}
+
+func parseKeyValue(attr string) (string, string, bool) {
+  parts := strings.Split(attr, "=")
+  if len(parts) == 2 {
+    return parts[0], parts[1], true
+  }
+  return "", "", false
+}
+
+func columnDefs[T any](values []T) []map[string]any {
+  var t reflect.Type
+  if len(values) > 0 {
+    t = reflect.TypeOf(values[0])
+  } else {
+    return []map[string]any{}
+  }
+  defs := make([]map[string]any, t.NumField())
+  for i := 0; i < t.NumField(); i++ {
+    field := t.Field(i)
+    defs[i] = make(map[string]any)
+    defs[i]["field"] = field.Name
+    if ag, ok := field.Tag.Lookup("ag"); ok {
+      for _, attr := range strings.Split(ag, ",") {
+        if key, value, ok := parseKeyValue(attr); ok {
+          defs[i][key] = value
+        }
+      }
+    }
+  }
+  return defs
+}
+
+func hasLink[T any](values []T) bool {
+  if len(values) == 0 {
+    return false
+  }
+  _, ok := reflect.TypeOf(values[0]).MethodByName("Link")
+  return ok
+}
+
+func rowData[T any](values []T) []map[string]any {
+  data := make([]map[string]any, len(values))
+  for i, value := range values {
+    data[i] = make(map[string]any)
+    for j := 0; j < reflect.TypeOf(value).NumField(); j++ {
+      field := reflect.TypeOf(value).Field(j)
+      data[i][field.Name] = reflect.ValueOf(value).Field(j).Interface()
+    }
+    if method, ok := reflect.TypeOf(value).MethodByName("Link"); ok {
+      data[i]["Link"] = method.Func.Call([]reflect.Value{reflect.ValueOf(value)})[0].Interface()
+    }
+  }
+  return data
+}
+
+func gridOptions[T any](values []T, attr []templ.Attributes) map[string]any {
+  opts := map[string]any{
+    "rowData": rowData[T](values),
+    "columnDefs": columnDefs(values),
+    "rowSelection": "single",
+    "pagination": true,
+  }
+  for _, a := range attr {
+    for key, value := range a {
+      opts[key] = value
+    }
+  }
+  return opts
+}
+
+templ Table[T any](id string, values []T, attr ...templ.Attributes) {
+	<div id={ id } class={"ag-theme-quartz", class(attr) }></div>
+	@agTable(id, hasLink(values), gridOptions[T](values, attr))
+}
