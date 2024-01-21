@@ -1,0 +1,233 @@
+package templates
+
+import "fmt"
+
+type TableProps struct {
+  ID   string
+  Cols []TableColumnProps
+}
+
+type TableColumnProps struct {
+	Name          string
+	Align         Alignment
+	MinScreenSize ScreenSize
+	Sortable      bool
+}
+
+type Alignment string
+
+const (
+	Left   Alignment = "text-left"
+	Center Alignment = "text-center"
+	Right  Alignment = "text-right"
+)
+
+type ScreenSize string
+
+var (
+	Small  ScreenSize = "hidden sm:table-cell"
+	Medium ScreenSize = "hidden md:table-cell"
+	Large  ScreenSize = "hidden lg:table-cell"
+)
+
+type navigationAction int
+
+const (
+	first navigationAction = iota
+	previous
+	next
+	last
+)
+
+templ Table(props TableProps) {
+	<div class="flex flex-col">
+		@tableHeader(props.ID)
+		<div id={ props.ID + "-container" } class="w-full overflow-x-scroll">
+			<table id={ props.ID + "-table" } class="border-collapse w-full">
+				<thead class="border-b border-neutral-200">
+					<tr class="text-nowrap select-none">
+						for i, col := range props.Cols {
+							<th
+								if col.Sortable {
+									onclick={ updateTable(props.ID, first, i) }
+								}
+								class={ "p-4 text-left text-neutral-600", templ.KV("cursor-pointer", col.Sortable), fmt.Sprintf("%s %s", col.MinScreenSize, col.Align) }
+							>
+								{ col.Name }
+							</th>
+						}
+					</tr>
+				</thead>
+				<tbody>
+					{ children... }
+				</tbody>
+			</table>
+		</div>
+		@tableFooter(props.ID)
+		@updateTable(props.ID, first, -1)
+	</div>
+}
+
+templ TableRow() {
+	<tr class="border-b border-neutral-200 hover:bg-neutral-100 text-nowrap">
+		{ children... }
+	</tr>
+}
+
+templ TableCell(col TableColumnProps) {
+	<td class={ "p-4", fmt.Sprintf("%s %s", col.MinScreenSize, col.Align) }>
+		{ children... }
+	</td>
+}
+
+templ tableHeader(id string) {
+	<div aria-label="Search" class="flex flex-row items-center justify-end">
+		<input
+			id={ id + "-search" }
+			type="text"
+			placeholder="Search"
+			onkeyup={ updateTable(id, first, -1) }
+			class="bg-transparent rounded-md w-auto focus:w-full"
+		/>
+	</div>
+}
+
+templ tableFooter(id string) {
+	<ul aria-label="Pagination" class="flex flex-col sm:flex-row items-center justify-end p-4 sm:py-1 gap-2 sm:gap-6 bg-neutral-100">
+		<li class="flex flex-row items-center gap-2">
+			<span>Page Size: </span>
+			<select
+				id={ id + "-pagination" }
+				onchange={ updateTable(id, first, -1) }
+				class="bg-transparent rounded-md"
+			>
+				<option class="bg-white" value="5">5</option>
+				<option class="bg-white" value="10" selected>10</option>
+				<option class="bg-white" value="20">20</option>
+				<option class="bg-white" value="50">50</option>
+				<option class="bg-white" value="100">100</option>
+			</select>
+		</li>
+		<li class="flex flex-row items-center gap-2">
+			<span>
+				<b id={ id + "-start" }>1</b>
+				to
+				<b id={ id + "-end" }>5</b>
+				of
+				<b id={ id + "-total" }>5</b>
+			</span>
+		</li>
+		<li class="flex flex-row items-center gap-2">
+			<button aria-label="First" onclick={ updateTable(id, first, -1) }>
+				@IconBackwardFast("h-4 w-4")
+			</button>
+			<button aria-label="Previous" onclick={ updateTable(id, previous, -1) }>
+				@IconBackwardStep("h-4 w-4")
+			</button>
+			<span>
+				Page
+				<b id={ id + "-page" }>1</b>
+				of
+				<b id={ id + "-pages" }>1</b>
+			</span>
+			<button aria-label="Next" onclick={ updateTable(id, next, -1) }>
+				@IconForwardStep("h-4 w-4")
+			</button>
+			<button aria-label="Last" onclick={ updateTable(id, last, -1) }>
+				@IconForwardFast("h-4 w-4")
+			</button>
+		</li>
+	</ul>
+}
+
+script updateTable(id string, action navigationAction, sortColumn int) {
+  // Get page number to be displayed for the given action
+  let pageNumber = -1;
+  const actualPage = parseInt(document.getElementById(id + "-page").textContent) - 1;
+  const totalPages = parseInt(document.getElementById(id + "-pages").textContent);
+  if (action === 0) { // First
+    pageNumber = 0;
+  } else if (action == 1 && actualPage > 0) { // Previous
+    pageNumber = Math.max(0, actualPage - 1);
+  } else if (action == 2 && actualPage < totalPages - 1) { // Next
+    pageNumber = Math.min(totalPages - 1, actualPage + 1);
+  } else if (action == 3) { // Last
+    pageNumber = totalPages - 1;
+  } else {
+    return;
+  }
+
+  // Sort rows by the given column
+  if (sortColumn !== -1) {
+    const rows = [...document.getElementById(id + "-table").getElementsByTagName("tbody")]
+      .flatMap((tbody) => [...tbody.getElementsByTagName("tr")]);
+
+    const sortedRows = rows.toSorted((a, b) => {
+      const aText = a.getElementsByTagName("td")[sortColumn].textContent;
+      const bText = b.getElementsByTagName("td")[sortColumn].textContent;
+
+      // If row contains numbers, sort by number
+      if (!isNaN(parseFloat(aText)) && !isNaN(parseFloat(bText))) {
+        return parseFloat(bText) - parseFloat(aText);
+      }
+
+      // Otherwise, sort by text
+      return aText.localeCompare(bText);
+    });
+
+    // If it is already sorted, use reverse order
+    if (sortedRows.every((row, i) => row === rows[i])) {
+      sortedRows.reverse();
+    }
+
+    for (const row of sortedRows) {
+      row.parentNode.appendChild(row);
+    }
+
+    // Change column header color
+    const headers = [...document.getElementById(id + "-table").getElementsByTagName("th")];
+    headers.forEach((header, i) => {
+      header.classList.remove("text-neutral-600");
+      header.classList.remove("text-indigo-600");
+      header.classList.add(i === sortColumn ? "text-indigo-600" : "text-neutral-600");
+    });
+  }
+
+  // Filter rows by search term and page number
+  let totalCount = 0;
+  const rows = [...document.getElementById(id + "-table").getElementsByTagName("tbody")]
+    .flatMap((tbody) => [...tbody.getElementsByTagName("tr")]);
+  const searchTerm = document.getElementById(id + "-search").value.toLowerCase();
+  const pageSize = parseInt(document.getElementById(id + "-pagination").value);
+  for (const row of rows) {
+    // Reset row visibility
+    row.classList.remove("hidden");
+
+    // Hide row if it doesn't match the search term
+    if (!row.textContent.toLowerCase().includes(searchTerm)) {
+      row.classList.add("hidden");
+      continue;
+    }
+
+    // Update total count to be displayed for the given filter
+    totalCount++;
+
+    // Hide row if it doesn't match the page number
+    if (pageSize * pageNumber >= totalCount || totalCount > pageSize * (pageNumber + 1)) {
+      row.classList.add("hidden");
+      continue;
+    }
+  }
+
+  // Update pagination bar
+  const setValue = (id, value) => document.getElementById(id).textContent = value.toString();
+  setValue(id + "-start", pageNumber * pageSize + Boolean(totalCount));
+  setValue(id + "-end", Math.min(pageNumber * pageSize + pageSize, totalCount));
+  setValue(id + "-total", totalCount);
+  setValue(id + "-page", pageNumber + 1);
+  setValue(id + "-pages", Math.max(Math.ceil(totalCount / pageSize), 1));
+
+  // Update table min height
+  const tableContainer = document.getElementById(id + "-container");
+  tableContainer.style.minHeight = `${(parseInt(pageSize) + 2) * 3}rem`;
+}

@@ -1,0 +1,246 @@
+package templates
+
+import "fmt"
+
+type Driver struct {
+	Name          string
+	Poles         int
+	Podiums       int
+	Wins          int
+	CareerPoints  int
+	Championships int
+}
+
+var tableProps = TableProps{
+	ID: "drivers",
+	Cols: []TableColumnProps{
+		{Name: "Name", Sortable: true, Align: Left},
+		{Name: "Poles", Sortable: true, Align: Right},
+		{Name: "Podiums", Sortable: true, Align: Right},
+		{Name: "Wins", Sortable: true, Align: Right},
+		{Name: "Career Points", MinScreenSize: Medium, Align: Right},
+		{Name: "Championships", Sortable: true, MinScreenSize: Small, Align: Right},
+	},
+}
+
+templ ShowTable() {
+	@Table(tableProps) {
+		for _, driver := range drivers {
+			@TableRow() {
+				@TableCell(tableProps.Cols[0]) {
+					{ driver.Name }
+				}
+				@TableCell(tableProps.Cols[1]) {
+					{ fmt.Sprintf("%d", driver.Poles) }
+				}
+				@TableCell(tableProps.Cols[2]) {
+					{ fmt.Sprintf("%d", driver.Podiums) }
+				}
+				@TableCell(tableProps.Cols[3]) {
+					{ fmt.Sprintf("%d", driver.Wins) }
+				}
+				@TableCell(tableProps.Cols[4]) {
+					{ fmt.Sprintf("%d", driver.CareerPoints) }
+				}
+				@TableCell(tableProps.Cols[5]) {
+					{ fmt.Sprintf("%d", driver.Championships) }
+				}
+			}
+		}
+	}
+}
+
+var drivers = []Driver{
+	{
+		Name:          "Lewis Hamilton",
+		Poles:         72,
+		Podiums:       109,
+		Wins:          62,
+		CareerPoints:  2346,
+		Championships: 3,
+	},
+	{
+		Name:          "Sebastian Vettel",
+		Poles:         46,
+		Podiums:       97,
+		Wins:          42,
+		CareerPoints:  2127,
+		Championships: 4,
+	},
+	{
+		Name:          "Fernando Alonso",
+		Poles:         22,
+		Podiums:       97,
+		Wins:          32,
+		CareerPoints:  1851,
+		Championships: 2,
+	},
+	{
+		Name:          "Kimi Räikkönen",
+		Poles:         16,
+		Podiums:       85,
+		Wins:          20,
+		CareerPoints:  1566,
+		Championships: 1,
+	},
+	{
+		Name:          "Felipe Massa",
+		Poles:         16,
+		Podiums:       41,
+		Wins:          11,
+		CareerPoints:  1167,
+		Championships: 0,
+	},
+	{
+		Name:          "Daniel Ricciardo",
+		Poles:         1,
+		Podiums:       18,
+		Wins:          4,
+		CareerPoints:  616,
+		Championships: 0,
+	},
+	{
+		Name:          "Nico Rosberg",
+		Poles:         30,
+		Podiums:       57,
+		Wins:          23,
+		CareerPoints:  1594,
+		Championships: 1,
+	},
+	{
+		Name:          "Max Verstappen",
+		Poles:         0,
+		Podiums:       7,
+		Wins:          1,
+		CareerPoints:  204,
+		Championships: 0,
+	},
+	{
+		Name:          "Sergio Pérez",
+		Poles:         0,
+		Podiums:       7,
+		Wins:          0,
+		CareerPoints:  458,
+		Championships: 0,
+	},
+	{
+		Name:          "Nico Hülkenberg",
+		Poles:         1,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  301,
+		Championships: 0,
+	},
+	{
+		Name:          "Valtteri Bottas",
+		Poles:         0,
+		Podiums:       9,
+		Wins:          0,
+		CareerPoints:  411,
+		Championships: 0,
+	},
+	{
+		Name:          "Romain Grosjean",
+		Poles:         0,
+		Podiums:       10,
+		Wins:          0,
+		CareerPoints:  371,
+		Championships: 0,
+	},
+	{
+		Name:          "Jenson Button",
+		Poles:         8,
+		Podiums:       50,
+		Wins:          15,
+		CareerPoints:  1235,
+		Championships: 1,
+	},
+	{
+		Name:          "Kevin Magnussen",
+		Poles:         1,
+		Podiums:       1,
+		Wins:          0,
+		CareerPoints:  158,
+		Championships: 0,
+	},
+	{
+		Name:          "Esteban Gutiérrez",
+		Poles:         0,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  59,
+		Championships: 0,
+	},
+	{
+		Name:          "Daniil Kvyat",
+		Poles:         0,
+		Podiums:       2,
+		Wins:          0,
+		CareerPoints:  133,
+		Championships: 0,
+	},
+	{
+		Name:          "Jolyon Palmer",
+		Poles:         0,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  1,
+		Championships: 0,
+	},
+	{
+		Name:          "Marcus Ericsson",
+		Poles:         0,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  9,
+		Championships: 0,
+	},
+	{
+		Name:          "Felipe Nasr",
+		Poles:         0,
+		Podiums:       2,
+		Wins:          0,
+		CareerPoints:  27,
+		Championships: 0,
+	},
+	{
+		Name:          "Carlos Sainz Jr.",
+		Poles:         0,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  100,
+		Championships: 0,
+	},
+	{
+		Name:          "Pascal Wehrlein",
+		Poles:         0,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  1,
+		Championships: 0,
+	},
+	{
+		Name:          "Rio Haryanto",
+		Poles:         0,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  0,
+		Championships: 0,
+	},
+	{
+		Name:          "Pastor Maldonado",
+		Poles:         1,
+		Podiums:       1,
+		Wins:          1,
+		CareerPoints:  159,
+		Championships: 0,
+	},
+	{
+		Name:          "Esteban Ocon",
+		Poles:         0,
+		Podiums:       0,
+		Wins:          0,
+		CareerPoints:  0,
+		Championships: 0,
+	},
+}
