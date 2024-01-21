@@ -85,7 +85,7 @@ func gridOptions[T any](values []T, attr []templ.Attributes) map[string]any {
   return opts
 }
 
-templ Table[T any](id string, values []T, attr ...templ.Attributes) {
+templ AGGrid[T any](id string, values []T, attr ...templ.Attributes) {
 	<div id={ id } class={"ag-theme-quartz", class(attr) }></div>
 	@agTable(id, hasLink(values), gridOptions[T](values, attr))
 }
