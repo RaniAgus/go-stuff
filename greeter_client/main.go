@@ -25,9 +25,9 @@ import (
 	"log"
 	"time"
 
+	pb "github.com/RaniAgus/go-grpc/helloworld"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
 const (

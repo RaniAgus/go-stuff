@@ -1,0 +1,10 @@
+version: "3"
+
+tasks:
+  server:
+    cmds:
+      - go run greeter_server/main.go
+
+  client:
+    cmds:
+      - go run greeter_client/main.go
