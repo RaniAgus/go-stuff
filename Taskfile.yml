@@ -1,17 +1,21 @@
 version: "3"
 
 tasks:
+  default:
+    cmds:
+      - ag -l . | entr -r task {{default "server" .CLI_ARGS}}
+
   server:
     deps:
       - generate
     cmds:
-      - go run greeter_server/main.go
+      - go run greeter_server/main.go {{.CLI_ARGS}}
 
   client:
     deps:
       - generate
     cmds:
-      - go run greeter_client/main.go
+      - go run greeter_client/main.go {{.CLI_ARGS}}
 
   generate:
     sources:
