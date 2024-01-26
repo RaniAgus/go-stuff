@@ -1,0 +1,36 @@
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - ag -l . | entr -r task {{default "server" .CLI_ARGS}}
+
+  server:
+    deps:
+      - generate
+    cmds:
+      - go run server/main.go {{.CLI_ARGS}}
+
+  client:
+    deps:
+      - generate
+    cmds:
+      - go run client/main.go {{.CLI_ARGS}}
+
+  ui:
+    cmds:
+      - |
+        sleep 1; \
+        grpcui --plaintext {{default "localhost:50051" .CLI_ARGS}}
+
+  generate:
+    sources:
+      - "proto/*.proto"
+    cmds:
+      - |
+        protoc --proto_path=proto proto/*.proto \
+          --go_out=. --go-grpc_out=.
+
+  clean:
+    cmds:
+      - rm -rf .task/

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package calculator;
+
+option go_package = "./pb";
+
+service Calculator {
+  rpc Calculate(CalculationRequestWithOperation) returns (CalculationResponse) {}
+  rpc Add(CalculationRequest) returns (CalculationResponse) {}
+  rpc Subtract(CalculationRequest) returns (CalculationResponse) {}
+  rpc Multiply(CalculationRequest) returns (CalculationResponse) {}
+  rpc Divide(CalculationRequest) returns (CalculationResponse) {}
+  rpc Sum(NumberStream) returns (CalculationResponse) {}
+}
+
+message CalculationRequestWithOperation {
+  int64 a = 1;
+  int64 b = 2;
+  Operation operation = 3;
+}
+
+enum Operation {
+  ADD = 0;
+  SUBTRACT = 1;
+  MULTIPLY = 2;
+  DIVIDE = 3;
+}
+
+message CalculationRequest {
+  int64 a = 1;
+  int64 b = 2;
+}
+
+message CalculationResponse {
+  int64 result = 1;
+}
+
+message NumberStream {
+  repeated int64 numbers = 1;
+}
