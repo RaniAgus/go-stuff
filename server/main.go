@@ -33,13 +33,13 @@ func (cs *calculatorServer) Calculate(
 	in *pb.CalculationRequestWithOperation,
 ) (*pb.CalculationResponse, error) {
 	switch in.GetOperation() {
-	case pb.Operation_ADD:
+	case pb.Operation_Add:
 		return cs.Add(ctx, GetRequest(in))
-	case pb.Operation_SUBTRACT:
+	case pb.Operation_Substract:
 		return cs.Subtract(ctx, GetRequest(in))
-	case pb.Operation_MULTIPLY:
+	case pb.Operation_Multiply:
 		return cs.Multiply(ctx, GetRequest(in))
-	case pb.Operation_DIVIDE:
+	case pb.Operation_Divide:
 		return cs.Divide(ctx, GetRequest(in))
 	default:
 		return nil, status.Error(codes.InvalidArgument, "unknown operation")
